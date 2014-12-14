@@ -342,7 +342,6 @@ public class LokumMatrix {
 		final JLabel gif = new JLabel(Main.explodeImage,JLabel.CENTER);
 		gif.setVerticalAlignment(JLabel.CENTER);
 		gif.setBounds(x*Constants.LOKUM_SIZE,y*Constants.LOKUM_SIZE,Constants.LOKUM_SIZE,Constants.LOKUM_SIZE);
-		System.out.println(gif.getLocation());
 		GameWindow.gameBoard.add(gif);
 		final Timer end = new Timer(10000,new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
