@@ -23,6 +23,8 @@ public class Level {
 		case 1:
 			setMoveCount(10);
 			setTargetScore(15000);
+			
+			
 		}
 	}
 	
