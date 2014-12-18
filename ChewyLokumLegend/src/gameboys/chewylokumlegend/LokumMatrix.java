@@ -192,6 +192,16 @@ public class LokumMatrix {
 	}
 
 	/**
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
+	public void specialSwap(int x1, int y1, int x2, int y2){
+		//TODO
+	}
+	
+	/**
 	 * @param patterns 
 	 * @param xFixed x index of the lokum in the middle
 	 * @param yFixed y index of the lokum in the middle

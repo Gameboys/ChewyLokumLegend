@@ -30,7 +30,7 @@ public class ScoreBoard extends JPanel{
 	 * @param level 
 	 * 
 	 */
-	public ScoreBoard(Level level){
+	public ScoreBoard(NormalLevel level){
 		super();
 		setLayout(null);
 		setCurrentScore(0);

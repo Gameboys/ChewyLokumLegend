@@ -6,10 +6,9 @@ import java.util.ArrayList;
  * @author Gameboys
  *
  */
-public class Level {
+public abstract class Level {
 	
 	private int levelNum;
-	private int moveCount;
 	private int targetScore;
 	private ArrayList<int[]> obstacleCoordinates;
 	
@@ -21,7 +20,6 @@ public class Level {
 		setLevelNum(levelNum);
 		switch(levelNum){
 		case 1:
-			setMoveCount(10);
 			setTargetScore(15000);
 			
 			
@@ -40,18 +38,6 @@ public class Level {
 	 */
 	public void setLevelNum(int levelNum) {
 		this.levelNum = levelNum;
-	}
-	/**
-	 * @return the moveCount
-	 */
-	public int getMoveCount() {
-		return moveCount;
-	}
-	/**
-	 * @param moveCount the moveCount to set
-	 */
-	public void setMoveCount(int moveCount) {
-		this.moveCount = moveCount;
 	}
 	/**
 	 * @return the targetScore
