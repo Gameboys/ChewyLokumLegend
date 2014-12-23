@@ -19,7 +19,7 @@ public class GameWindow extends JSplitPane {
 	 * @param level 
 	 * 
 	 */
-	public GameWindow(NormalLevel level){
+	public GameWindow(Level level){
 		super(JSplitPane.HORIZONTAL_SPLIT);
 		setSize(WIDTH, HEIGHT);
 		

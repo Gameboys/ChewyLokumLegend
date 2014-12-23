@@ -25,6 +25,19 @@ public abstract class Level {
 			
 		}
 	}
+
+	/**
+	 * @return
+	 */
+	public abstract String getResourceName();
+	/**
+	 * @return
+	 */
+	public abstract int getResourceAmount();
+	/**
+	 * @param resourceAmount
+	 */
+	public abstract void setResourceAmount(int resourceAmount);
 	
 	
 	/**

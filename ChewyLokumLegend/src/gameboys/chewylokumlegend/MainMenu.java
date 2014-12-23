@@ -25,6 +25,10 @@ public class MainMenu extends JPanel {
 	private JButton levelSelection;
 	private JButton resumeGame;
 	
+	/**
+	 * Default constructor, called by the getInstance() method if
+	 * it is the first time a MainMenu object is requested.
+	 */
 	private MainMenu(){
 		super();
 		setLayout(null);
@@ -50,8 +54,10 @@ public class MainMenu extends JPanel {
 		add(titleShadow);
 	}
 
+	/**
+	 * 
+	 */
 	protected void addButtons() {
-		// TODO Auto-generated method stub
 		JButton newGame = new JButton("Start new game");
 		newGame.setBounds(WIDTH/4-WIDTH/8,HEIGHT/4,WIDTH/4,HEIGHT/10);
 		newGame.setFont(new Font("Comic Sans MS", Font.BOLD, WIDTH/42));
@@ -75,7 +81,7 @@ public class MainMenu extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				JPanel contentPane = (JPanel) ApplicationWindow.getInstance().getContentPane();
 				contentPane.removeAll();
-				contentPane.add(new GameWindow(new NormalLevel(1)));
+				contentPane.add(new GameWindow(LevelFactory.getLevel(1)));
 				contentPane.validate();
 				contentPane.repaint();
 			}

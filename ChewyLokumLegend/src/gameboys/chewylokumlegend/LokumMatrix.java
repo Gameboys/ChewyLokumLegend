@@ -600,7 +600,7 @@ public class LokumMatrix {
 			ScoreBoard sb = GameWindow.scoreBoard;
 			if(sb.getCurrentScore()>=sb.getTargetScore()){
 				GameWindow.gameBoard.youWin();
-			}else if(sb.getMovesLeft()==0)GameWindow.gameBoard.gameOver();
+			}else if(sb.getResourceLeft()<=0)GameWindow.gameBoard.gameOver();
 		}
 	}
 

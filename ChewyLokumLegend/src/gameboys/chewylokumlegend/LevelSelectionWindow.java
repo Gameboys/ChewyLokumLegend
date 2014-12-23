@@ -1,6 +1,8 @@
 package gameboys.chewylokumlegend;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +27,7 @@ public class LevelSelectionWindow extends JPanel {
 	 */
 	private LevelSelectionWindow(){
 		super();
-		setLayout(new BorderLayout());
+		setLayout(new FlowLayout());
 		addLevels();
 	}
 	
@@ -33,19 +35,22 @@ public class LevelSelectionWindow extends JPanel {
 	 * 
 	 */
 	private void addLevels() {
-		JButton one = new JButton("1");
-		one.setFont(new Font("Comic Sans MS", Font.BOLD, Constants.WINDOW_WIDTH/2));
-		one.setBorderPainted(false);
-		one.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				JPanel contentPane = (JPanel) ApplicationWindow.getInstance().getContentPane();
-				contentPane.removeAll();
-				contentPane.add(new GameWindow(new NormalLevel(1)));
-				contentPane.validate();
-				contentPane.repaint();
-			}
-		});
-		add(one,BorderLayout.CENTER);
+		for(int i=1; i<=2; i++){
+			final int levelNum = i;
+			JButton levelButton = new JButton(levelNum+"");
+			levelButton.setFont(new Font("Comic Sans MS",Font.BOLD,Constants.WINDOW_WIDTH/10));
+			levelButton.setPreferredSize(new Dimension(levelButton.getPreferredSize().width*2,levelButton.getPreferredSize().height));
+			levelButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0) {
+					JPanel contentPane = (JPanel) ApplicationWindow.getInstance().getContentPane();
+					contentPane.removeAll();
+					contentPane.add(new GameWindow(LevelFactory.getLevel(levelNum)));
+					contentPane.validate();
+					contentPane.repaint();
+				}
+			});
+			add(levelButton);
+		}
 		
 	}
 

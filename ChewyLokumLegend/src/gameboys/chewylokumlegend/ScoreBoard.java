@@ -18,11 +18,13 @@ public class ScoreBoard extends JPanel{
 	
 	private int levelNum;
 	private int currentScore;
-	private int movesLeft;
+	private int resourceLeft;
 	private int targetScore;
 	
+	private String resourceName;
+	
 	private JLabel levelNumLabel;
-	private JLabel movesLeftLabel;
+	private JLabel resourceLeftLabel;
 	private JLabel targetScoreLabel;
 	private JLabel currentScoreLabel;
 	
@@ -30,11 +32,12 @@ public class ScoreBoard extends JPanel{
 	 * @param level 
 	 * 
 	 */
-	public ScoreBoard(NormalLevel level){
+	public ScoreBoard(Level level){
 		super();
 		setLayout(null);
 		setCurrentScore(0);
-		movesLeft = level.getMoveCount();
+		resourceLeft = level.getResourceAmount();
+		resourceName = level.getResourceName();
 		setLevelNum(level.getLevelNum());
 		setTargetScore(level.getTargetScore());
 		addLabels();
@@ -49,10 +52,10 @@ public class ScoreBoard extends JPanel{
 		levelNumTitle.setBounds(WIDTH/10,HEIGHT/10-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
 		levelNumTitle.setFont(font);
 		add(levelNumTitle);
-		final JLabel movesLeftTitle = new JLabel("Moves Left: ");
-		movesLeftTitle.setBounds(WIDTH/10,HEIGHT*3/10-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
-		movesLeftTitle.setFont(font);
-		add(movesLeftTitle);
+		final JLabel resourceLeftTitle = new JLabel(resourceName +" Left: ");
+		resourceLeftTitle.setBounds(WIDTH/10,HEIGHT*3/10-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
+		resourceLeftTitle.setFont(font);
+		add(resourceLeftTitle);
 		final JLabel targetScoreTitle = new JLabel("Target Score: ");
 		targetScoreTitle.setFont(font);
 		targetScoreTitle.setBounds(WIDTH/10,HEIGHT*5/10-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
@@ -66,10 +69,10 @@ public class ScoreBoard extends JPanel{
 		levelNumLabel.setBounds(WIDTH/10,HEIGHT*3/20-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
 		levelNumLabel.setFont(font);
 		add(levelNumLabel);
-		movesLeftLabel = new JLabel("" + movesLeft);
-		movesLeftLabel.setBounds(WIDTH/10,HEIGHT*7/20-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
-		movesLeftLabel.setFont(font);
-		add(movesLeftLabel);
+		resourceLeftLabel = new JLabel("" + resourceLeft);
+		resourceLeftLabel.setBounds(WIDTH/10,HEIGHT*7/20-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
+		resourceLeftLabel.setFont(font);
+		add(resourceLeftLabel);
 		targetScoreLabel = new JLabel("" + targetScore);
 		targetScoreLabel.setBounds(WIDTH/10,HEIGHT*11/20-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
 		targetScoreLabel.setFont(font);
@@ -85,7 +88,7 @@ public class ScoreBoard extends JPanel{
 	 */
 	public void update(){
 		levelNumLabel.setText(""+levelNum);
-		movesLeftLabel.setText(""+movesLeft);
+		resourceLeftLabel.setText(""+resourceLeft);
 		targetScoreLabel.setText(""+targetScore);
 		currentScoreLabel.setText(""+currentScore);
 	}
@@ -124,14 +127,14 @@ public class ScoreBoard extends JPanel{
 	/**
 	 * @return the movesLeft
 	 */
-	public int getMovesLeft(){
-		return movesLeft;
+	public int getResourceLeft(){
+		return resourceLeft;
 	}
 	/**
 	 * Decrement movesLeft
 	 */
 	public void makeMove(){
-		movesLeft--;
+		resourceLeft--;
 		update();
 	}
 	/**

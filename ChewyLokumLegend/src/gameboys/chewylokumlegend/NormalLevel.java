@@ -8,27 +8,32 @@ public class NormalLevel extends Level {
 
 	private int moveCount;
 	
-	public NormalLevel(int levelNum) {
+	/**
+	 * @param levelNum
+	 * @param moveCount
+	 */
+	public NormalLevel(int levelNum, int moveCount) {
 		super(levelNum);
-
-		switch(levelNum){
-		case 1:
-			setMoveCount(10);
-		}
+		setResourceAmount(moveCount);
 	}
 	
 
-	/**
-	 * @return the moveCount
-	 */
-	public int getMoveCount() {
+
+	@Override
+	public String getResourceName() {
+		return "Moves";
+	}
+
+
+	@Override
+	public int getResourceAmount() {
 		return moveCount;
 	}
-	/**
-	 * @param moveCount the moveCount to set
-	 */
-	public void setMoveCount(int moveCount) {
-		this.moveCount = moveCount;
+
+
+	@Override
+	public void setResourceAmount(int resourceAmount) {
+		moveCount = resourceAmount;
 	}
 
 }

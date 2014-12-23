@@ -164,7 +164,7 @@ public class GameBoard extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					JPanel contentPane = (JPanel) ApplicationWindow.getInstance().getContentPane();
 					contentPane.removeAll();
-					contentPane.add(new GameWindow(new NormalLevel(1)));
+					contentPane.add(new GameWindow(LevelFactory.getLevel(1)));
 					contentPane.validate();
 					contentPane.repaint();
 				}
