@@ -1,10 +1,12 @@
 package gameboys.chewylokumlegend;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 /**
  * @author Gameboys
@@ -28,6 +30,9 @@ public class ScoreBoard extends JPanel{
 	private JLabel targetScoreLabel;
 	private JLabel currentScoreLabel;
 	
+	private boolean mode;
+	private Timer timer;
+	
 	/**
 	 * @param level 
 	 * 
@@ -41,6 +46,27 @@ public class ScoreBoard extends JPanel{
 		setLevelNum(level.getLevelNum());
 		setTargetScore(level.getTargetScore());
 		addLabels();
+		
+		if(resourceName.equals("Time"))timer = new Timer(1000,new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				resourceLeft--;
+				resourceLeftLabel.setText(""+resourceLeft);
+			}
+		});
+	}
+	
+	/**
+	 * @param mode
+	 */
+	public void setMode(boolean mode){
+		this.mode = mode;
+		if(resourceName.equals("Time"))
+		if(mode){
+			timer.start();
+		}else{
+			timer.stop();
+		}
 	}
 	
 	/**
@@ -134,7 +160,7 @@ public class ScoreBoard extends JPanel{
 	 * Decrement movesLeft
 	 */
 	public void makeMove(){
-		resourceLeft--;
+		if(resourceName.equals("Moves"))resourceLeft--;
 		update();
 	}
 	/**

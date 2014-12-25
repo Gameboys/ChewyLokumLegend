@@ -1,6 +1,5 @@
 package gameboys.chewylokumlegend;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -35,7 +34,7 @@ public class LevelSelectionWindow extends JPanel {
 	 * 
 	 */
 	private void addLevels() {
-		for(int i=1; i<=2; i++){
+		for(int i=1; i<=LevelFactory.numLevels; i++){
 			final int levelNum = i;
 			JButton levelButton = new JButton(levelNum+"");
 			levelButton.setFont(new Font("Comic Sans MS",Font.BOLD,Constants.WINDOW_WIDTH/10));

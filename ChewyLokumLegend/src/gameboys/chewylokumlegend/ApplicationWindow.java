@@ -19,6 +19,9 @@ public class ApplicationWindow extends JFrame {
 
 	private static ApplicationWindow instance;
 
+	/**
+	 * 
+	 */
 	private ApplicationWindow(){
 		super("Gameboys Present: Chewy Lokum Legend");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

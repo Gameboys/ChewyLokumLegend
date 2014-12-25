@@ -48,8 +48,6 @@ public class GameBoard extends JPanel {
 		
 		matrix = new LokumMatrix(10,10);
 		mouseListener = new GameMouseListener();
-
-		setMode(true);
 	}
 	
 	/**

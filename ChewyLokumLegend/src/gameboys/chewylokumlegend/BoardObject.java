@@ -34,8 +34,7 @@ public abstract class BoardObject {
 	 * 1: ROSE,
 	 * 2: HAZELNUT,
 	 * 3: PISTACHIO,
-	 * 4: COCONUT,
-	 * OBSTACLE not yet defined
+	 * 4: COCONUT
 	 */
 	public int getType() {
 		return type;
@@ -46,8 +45,7 @@ public abstract class BoardObject {
 	 * 1: ROSE,
 	 * 2: HAZELNUT,
 	 * 3: PISTACHIO,
-	 * 4: COCONUT,
-	 * OBSTACLE not yet defined
+	 * 4: COCONUT
 	 */
 	public void setType(int type) {
 		this.type = type;

@@ -30,6 +30,8 @@ public class GameWindow extends JSplitPane {
 		setLeftComponent(scoreBoard);
 		setRightComponent(gameBoard);
 		setDividerLocation(Constants.DIVIDER_RATIO);
+		
+		setMode(true);
 	}
 	
 	/**
@@ -38,4 +40,15 @@ public class GameWindow extends JSplitPane {
 	public void exitGame(){
 		
 	}
+	
+
+	
+	/**
+	 * @param mode
+	 */
+	public void setMode(boolean mode){
+		gameBoard.setMode(mode);
+		scoreBoard.setMode(mode);
+	}
+	
 }

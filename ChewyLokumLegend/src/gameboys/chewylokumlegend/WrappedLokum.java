@@ -1,7 +1,5 @@
 package gameboys.chewylokumlegend;
 
-import java.awt.Graphics;
-
 /**
  * @author Gameboys
  *
@@ -14,7 +12,6 @@ public class WrappedLokum extends SpecialLokum{
 	public WrappedLokum(int type) {
 		super();
 		setType(type);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**

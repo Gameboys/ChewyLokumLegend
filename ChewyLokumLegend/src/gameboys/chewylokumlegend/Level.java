@@ -16,14 +16,9 @@ public abstract class Level {
 	/**
 	 * @param levelNum
 	 */
-	public Level(int levelNum){
+	public Level(int levelNum, int targetScore){
 		setLevelNum(levelNum);
-		switch(levelNum){
-		case 1:
-			setTargetScore(15000);
-			
-			
-		}
+		setTargetScore(targetScore);
 	}
 
 	/**
