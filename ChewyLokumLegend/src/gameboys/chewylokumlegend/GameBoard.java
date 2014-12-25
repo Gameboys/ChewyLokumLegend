@@ -44,7 +44,7 @@ public class GameBoard extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				repaint();
 			}
-		});
+		});   
 		
 		matrix = new LokumMatrix(10,10);
 		mouseListener = new GameMouseListener();
@@ -206,15 +206,17 @@ public class GameBoard extends JPanel {
 			finalLokumYIndex = e.getY()/Constants.LOKUM_SIZE;
 			int dispX = finalLokumXIndex - initialLokumXIndex;
 			int dispY = finalLokumYIndex - initialLokumYIndex;
-			if(dispX==0 && dispY<0)matrix.swapNorth(initialLokumXIndex, initialLokumYIndex);
-			else if(dispX>0 && dispY<0)matrix.swapNorthEast(initialLokumXIndex, initialLokumYIndex);
-			else if(dispX>0 && dispY==0)matrix.swapEast(initialLokumXIndex, initialLokumYIndex);
-			else if(dispX>0 && dispY>0)matrix.swapSouthEast(initialLokumXIndex, initialLokumYIndex);
-			else if(dispX==0 && dispY>0)matrix.swapSouth(initialLokumXIndex, initialLokumYIndex);
-			else if(dispX<0 && dispY>0)matrix.swapSouthWest(initialLokumXIndex, initialLokumYIndex);
-			else if(dispX<0 && dispY==0)matrix.swapWest(initialLokumXIndex, initialLokumYIndex);
-			else if(dispX<0 && dispY<0)matrix.swapNorthWest(initialLokumXIndex, initialLokumYIndex);
+			int direction = -5;
+			if(dispX==0 && dispY<0)direction = Constants.NORTH;
+			else if(dispX>0 && dispY<0)direction = Constants.NORTHEAST;
+			else if(dispX>0 && dispY==0)direction = Constants.EAST;
+			else if(dispX>0 && dispY>0)direction = Constants.SOUTHEAST;
+			else if(dispX==0 && dispY>0)direction = Constants.SOUTH;
+			else if(dispX<0 && dispY>0)direction = Constants.SOUTHWEST;
+			else if(dispX<0 && dispY==0)direction = Constants.WEST;
+			else if(dispX<0 && dispY<0)direction = Constants.NORTHWEST;
 			else;
+			matrix.swapDirection(initialLokumXIndex, initialLokumYIndex, direction);
 		}
 		
 	}

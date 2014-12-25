@@ -22,11 +22,6 @@ public class LokumMatrix {
 	private static final String NORMAL = Constants.NORMAL;
 	private static final String ILLEGAL = Constants.ILLEGAL;
 
-	private static final int TYPE_ROSE = Constants.TYPE_ROSE;
-	private static final int TYPE_HAZELNUT = Constants.TYPE_HAZELNUT;
-	private static final int TYPE_PISTACHIO = Constants.TYPE_PISTACHIO;
-	private static final int TYPE_COCONUT = Constants.TYPE_COCONUT;
-
 	private static int POINTS_NORMAL = Constants.POINTS_NORMAL;
 
 	private int width;
@@ -108,7 +103,7 @@ public class LokumMatrix {
 			}
 		}
 	}
-
+ 
 	/**
 	 * Swaps the lokums in (x1,y1) and (x2,y2). Checks for patterns afterwards
 	 * for both swapped lokums and calls the destroyLokum method for the lokums
@@ -149,7 +144,7 @@ public class LokumMatrix {
 	 * @param y1 
 	 * @param x2 
 	 * @param y2 
-	 */
+	 */ 
 	public void swapSpecialLokums(int x1, int y1, int x2, int y2){
 		BoardObject lokum1 = getLokum(x1,y1);
 		BoardObject lokum2 = getLokum(x2,y2);
@@ -696,131 +691,26 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the north.
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
+	 * @param x
+	 * @param y
+	 * @param direction
 	 */
-	public void swapNorth(int x, int y){
-		if(y>0){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x,y-1) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x,y-1))swapSpecialLokums(x,y,x,y-1);
-			else swapLokums(x,y,x,y-1);
-		}
-	}
+	public void swapDirection(int x, int y, int direction){
+		int xOffset = -5;
+		int yOffset = -5;
+		
+		if(direction==Constants.NORTH || direction == Constants.SOUTH)xOffset=0;
+		else if(direction>Constants.NORTH && direction < Constants.SOUTH)xOffset=1;
+		else if(direction>Constants.SOUTH && direction <= Constants.NORTHWEST)xOffset=-1;
+		
+		if(direction==Constants.EAST || direction == Constants.WEST)yOffset=0;
+		else if(direction>Constants.EAST && direction < Constants.WEST)yOffset=1;
+		else if(direction>=Constants.NORTH && direction<=Constants.NORTHWEST)yOffset=-1;
 
-	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the northeast.
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
-	 */
-	public void swapNorthEast(int x, int y){
-		if(x<width-1 && y>0){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x+1,y-1) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x+1,y-1))swapSpecialLokums(x,y,x+1,y-1);
-			else swapLokums(x,y,x+1,y-1);
-		}
-	}
-
-	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the east
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
-	 */
-	public void swapEast(int x, int y){
-		if(x<width-1){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x+1,y) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x+1,y))swapSpecialLokums(x,y,x+1,y);
-			else swapLokums(x,y,x+1,y);
-		}
-	}
-
-	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the southeast.
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
-	 */
-	public void swapSouthEast(int x, int y){
-		if(x<width-1 && y<height-1){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x+1,y+1) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x+1,y+1))swapSpecialLokums(x,y,x+1,y+1);
-			else swapLokums(x,y,x+1,y+1);
-		}
-	}
-
-	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the south.
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
-	 */
-	public void swapSouth(int x, int y){
-		if(y<height-1){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x,y+1) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x,y+1))swapSpecialLokums(x,y,x,y+1);
-			else swapLokums(x,y,x,y+1);
-		}
-	}
-
-	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the southwest.
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
-	 */
-	public void swapSouthWest(int x, int y){
-		if(x>0 && y<height-1){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x-1,y+1) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x-1,y+1))swapSpecialLokums(x,y,x-1,y+1);
-			else swapLokums(x,y,x-1,y+1);
-		}
-	}
-
-	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the west.
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
-	 */
-	public void swapWest(int x, int y){
-		if(x>0){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x-1,y) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x-1,y))swapSpecialLokums(x,y,x-1,y);
-			else swapLokums(x,y,x-1,y);
-		}
-	}
-
-	/**
-	 * Swaps the lokum at the given index coordinates with
-	 * the one to the northwest.
-	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
-	 */
-	public void swapNorthWest(int x, int y){
-		if(x>0 && y>0){
-			if((getLokum(x,y) instanceof SpecialLokum
-					&& getLokum(x-1,y-1) instanceof SpecialLokum)
-					|| isNormalColorBombPair(x,y,x-1,y-1))swapSpecialLokums(x,y,x-1,y-1);
-			else swapLokums(x,y,x-1,y-1);
-		}
+		if((getLokum(x,y) instanceof SpecialLokum
+				&& getLokum(x+xOffset,y+yOffset) instanceof SpecialLokum)
+				|| isNormalColorBombPair(x,y,x+xOffset,y+yOffset))swapSpecialLokums(x,y,x+xOffset,y+yOffset);
+		else swapLokums(x,y,x+xOffset,y+yOffset);
 	}
 
 	/**

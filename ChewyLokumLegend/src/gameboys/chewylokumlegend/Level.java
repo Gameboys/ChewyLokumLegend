@@ -15,6 +15,7 @@ public abstract class Level {
 	
 	/**
 	 * @param levelNum
+	 * @param targetScore 
 	 */
 	public Level(int levelNum, int targetScore){
 		setLevelNum(levelNum);

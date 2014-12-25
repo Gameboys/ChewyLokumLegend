@@ -15,8 +15,8 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class ScoreBoard extends JPanel{
 	
-	public static int WIDTH = (int)(Constants.WINDOW_WIDTH*Constants.DIVIDER_RATIO);
-	public static int HEIGHT = Constants.WINDOW_HEIGHT;
+	private static int WIDTH = (int)(Constants.WINDOW_WIDTH*Constants.DIVIDER_RATIO);
+	private static int HEIGHT = Constants.WINDOW_HEIGHT;
 	
 	private int levelNum;
 	private int currentScore;
@@ -50,7 +50,7 @@ public class ScoreBoard extends JPanel{
 		if(resourceName.equals("Time"))timer = new Timer(1000,new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				resourceLeft--;
+				if(resourceLeft>0)resourceLeft--;
 				resourceLeftLabel.setText(""+resourceLeft);
 			}
 		});

@@ -40,6 +40,19 @@ public interface Constants {
 	public static int POINTS_WRAPPED_WRAPPED = 3600;
 	public static int POINTS_BOARDCLEAR_PER_LOKUM = 100;
 	
+	/**
+	 * Enumeration for swapping locations.
+	 * Starts from NORTH = 0 and increases clockwise.
+	 */
+	public static int NORTH = 0;
+	public static int NORTHEAST = 1;
+	public static int EAST = 2;
+	public static int SOUTHEAST = 3;
+	public static int SOUTH = 4;
+	public static int SOUTHWEST = 5;
+	public static int WEST = 6;
+	public static int NORTHWEST = 7;
+	
 	public static final int LOKUM_SIZE = WINDOW_WIDTH*2/27-1;
 
 }
