@@ -22,10 +22,11 @@ import javax.swing.Timer;
  */
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
-	
+
 	private GameMouseListener mouseListener;
 	private LokumMatrix matrix;
 	private Timer refresh;
+	private boolean mouseActive;
 	private boolean mode;
 
 	/**
@@ -38,18 +39,18 @@ public class GameBoard extends JPanel {
 		setOpaque(true);
 		setBackground(new Color(255,230,230));
 		setVisible(true);
-		
+
 		refresh = new Timer(Constants.REFRESH_RATE,new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				repaint();
 			}
 		});   
-		
+
 		matrix = new LokumMatrix(10,10);
 		mouseListener = new GameMouseListener();
 	}
-	
+
 	/**
 	 * @param mode
 	 */
@@ -57,15 +58,30 @@ public class GameBoard extends JPanel {
 		this.mode = mode;
 		if(mode){
 			addMouseListener(mouseListener);
+			mouseActive = true;
 			refresh.start();
 			Main.kanunMusic.loop(Clip.LOOP_CONTINUOUSLY);
 		}else{
 			removeMouseListener(mouseListener);
+			mouseActive = false;
 			refresh.stop();
 			Main.kanunMusic.stop();
 		}
 	}
-	
+
+	/**
+	 * @param active
+	 */
+	public void setMouseActive(boolean active){
+		if(active&&!mouseActive){
+			addMouseListener(mouseListener);
+			mouseActive = true;
+		}else if(!active&&mouseActive){
+			removeMouseListener(mouseListener);
+			mouseActive = false;
+		}
+	}
+
 	/**
 	 * 
 	 */
@@ -78,7 +94,7 @@ public class GameBoard extends JPanel {
 		validate();
 		repaint();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -91,15 +107,15 @@ public class GameBoard extends JPanel {
 		validate();
 		repaint();
 	}
-	
+
 	public void paint(Graphics g){
 		super.paint(g);
 		if(mode){
-//			g.drawImage(Main.backgroundImage, 0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, null);
+			//			g.drawImage(Main.backgroundImage, 0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, null);
 			matrix.paint(g);
 		}
 	}
-	
+
 	/**
 	 * @author Gameboys
 	 *
@@ -108,7 +124,7 @@ public class GameBoard extends JPanel {
 
 		public int WIDTH = (int)(Constants.WINDOW_WIDTH*(1-Constants.DIVIDER_RATIO));
 		public int HEIGHT = Constants.WINDOW_HEIGHT;
-		
+
 		/**
 		 * 
 		 */
@@ -117,7 +133,7 @@ public class GameBoard extends JPanel {
 			setLayout(null);
 			addLabels();
 		}
-		
+
 		/**
 		 * 
 		 */
@@ -128,19 +144,19 @@ public class GameBoard extends JPanel {
 			levelCompleted.setFont(new Font("Comic Sans MS", Font.BOLD, WIDTH/21));
 			add(levelCompleted);
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * @author Gameboys
 	 *
 	 */
 	class GameOverScreen extends JPanel{
-		
+
 		public int WIDTH = (int)(Constants.WINDOW_WIDTH*(1-Constants.DIVIDER_RATIO));
 		public int HEIGHT = Constants.WINDOW_HEIGHT;
-		
+
 		/**
 		 * 
 		 */
@@ -168,25 +184,25 @@ public class GameBoard extends JPanel {
 				}
 			});
 			add(tryAgain);
-			
+
 		}
 
-//		private void addLabels() {
-//			JLabel
-//		}
+		//		private void addLabels() {
+		//			JLabel
+		//		}
 	}
-	
+
 	/**
 	 * @author Gameboys
 	 *
 	 */
 	class GameMouseListener implements MouseListener{
-		
+
 		private int initialLokumXIndex;
 		private int initialLokumYIndex;
 		private int finalLokumXIndex;
 		private int finalLokumYIndex;
-		
+
 		@Override
 		public void mouseClicked(MouseEvent e) {}
 		@Override
@@ -215,10 +231,10 @@ public class GameBoard extends JPanel {
 			else if(dispX<0 && dispY>0)direction = Constants.SOUTHWEST;
 			else if(dispX<0 && dispY==0)direction = Constants.WEST;
 			else if(dispX<0 && dispY<0)direction = Constants.NORTHWEST;
-			else;
+			else return;
 			matrix.swapDirection(initialLokumXIndex, initialLokumYIndex, direction);
 		}
-		
+
 	}
-	
+
 }

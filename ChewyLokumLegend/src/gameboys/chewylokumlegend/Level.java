@@ -10,16 +10,19 @@ public abstract class Level {
 	
 	private int levelNum;
 	private int targetScore;
+	private int numSpecialSwaps;
 	private ArrayList<int[]> obstacleCoordinates;
 	
 	
 	/**
 	 * @param levelNum
 	 * @param targetScore 
+	 * @param numSpecialSwaps 
 	 */
-	public Level(int levelNum, int targetScore){
+	public Level(int levelNum, int targetScore, int numSpecialSwaps){
 		setLevelNum(levelNum);
 		setTargetScore(targetScore);
+		setNumSpecialSwaps(numSpecialSwaps);
 	}
 
 	/**
@@ -71,6 +74,20 @@ public abstract class Level {
 	 */
 	public void setObstacleCoordinates(ArrayList<int[]> obstacleCoordinates) {
 		this.obstacleCoordinates = obstacleCoordinates;
+	}
+
+	/**
+	 * @return the numSpecialSwaps
+	 */
+	public int getNumSpecialSwaps() {
+		return numSpecialSwaps;
+	}
+
+	/**
+	 * @param numSpecialSwaps the numSpecialSwaps to set
+	 */
+	public void setNumSpecialSwaps(int numSpecialSwaps) {
+		this.numSpecialSwaps = numSpecialSwaps;
 	}
 
 }

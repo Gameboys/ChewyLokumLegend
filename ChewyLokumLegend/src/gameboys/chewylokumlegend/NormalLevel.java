@@ -12,9 +12,10 @@ public class NormalLevel extends Level {
 	 * @param levelNum
 	 * @param targetScore 
 	 * @param moveCount
+	 * @param numSpecialSwaps 
 	 */
-	public NormalLevel(int levelNum, int targetScore, int moveCount) {
-		super(levelNum,targetScore);
+	public NormalLevel(int levelNum, int targetScore, int moveCount, int numSpecialSwaps) {
+		super(levelNum,targetScore,numSpecialSwaps);
 		setResourceAmount(moveCount);
 	}
 	

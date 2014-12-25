@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -29,6 +30,8 @@ public class ScoreBoard extends JPanel{
 	private JLabel resourceLeftLabel;
 	private JLabel targetScoreLabel;
 	private JLabel currentScoreLabel;
+	
+	private JButton specialSwapButton;
 	
 	private boolean mode;
 	private Timer timer;
@@ -107,6 +110,18 @@ public class ScoreBoard extends JPanel{
 		currentScoreLabel.setBounds(WIDTH/10,HEIGHT*15/20-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
 		currentScoreLabel.setFont(font);
 		add(currentScoreLabel);
+		
+		specialSwapButton = new JButton("Special Swap!");
+		specialSwapButton.setBounds(WIDTH/10,HEIGHT*17/20-HEIGHT/32,WIDTH-WIDTH/5,HEIGHT/16);
+		specialSwapButton.setFont(font);
+		specialSwapButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		add(specialSwapButton);
 	}
 	
 	/**

@@ -146,8 +146,8 @@ public class LokumMatrix {
 	 * @param y2 
 	 */ 
 	public void swapSpecialLokums(int x1, int y1, int x2, int y2){
-		BoardObject lokum1 = getLokum(x1,y1);
-		BoardObject lokum2 = getLokum(x2,y2);
+		Lokum lokum1 = (Lokum)getLokum(x1,y1);
+		Lokum lokum2 = (Lokum)getLokum(x2,y2);
 		if(lokum1 instanceof StripedLokum 
 				&& lokum2 instanceof StripedLokum){
 			destroyRow(y2,1);
@@ -194,13 +194,32 @@ public class LokumMatrix {
 	 */
 	public void specialSwap(int x1, int y1, int x2, int y2){
 		//TODO
+		BoardObject temp = getLokum(x1,y1);
+		setLokum(x1,y1,getLokum(x2,y2));
+		setLokum(x2,y2,temp);
+		int[][] patterns1 = analyzePatterns(x1,y1);
+		int[][] patterns2 = analyzePatterns(x2,y2);
+		String patternAnalysis1 = typeOfLokumFormed(patterns1);
+		String patternAnalysis2 = typeOfLokumFormed(patterns2);
+		if(patternAnalysis1.equals(ILLEGAL)&&patternAnalysis2.equals(ILLEGAL)){
+		}else{
+			GameWindow.scoreBoard.makeMove();
+			Main.cukcukSound.setFramePosition(0);
+			Main.cukcukSound.loop(1);
+			if(!patternAnalysis1.equals(ILLEGAL))destroyPattern(patterns1,x1,y1,1);
+			if(!patternAnalysis2.equals(ILLEGAL))destroyPattern(patterns2,x2,y2,1);
+			runActionTimer(1,1);
+		}
 	}
 	
 	/**
 	 * @param patterns 
 	 * @param xFixed x index of the lokum in the middle
 	 * @param yFixed y index of the lokum in the middle
-	 * @param multiplier 
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	private void destroyPattern(int[][] patterns, int xFixed, int yFixed,int multiplier){
 		String patternAnalysis = typeOfLokumFormed(patterns);
@@ -309,7 +328,10 @@ public class LokumMatrix {
 	 * 
 	 * @param x the x index of the lokum in the lokumMatrix
 	 * @param y the y index of the lokum in the lokumMatrix
-	 * @param multiplier 
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 * @requires a lokumMatrix is created, the point (x,y) is in bounds
 	 * @modifies the lokumMatrix, the Lokum object at coordinates (x,y)
 	 */
@@ -339,8 +361,8 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param x 
-	 * @param y 
+	 * @param x the x index of the lokum that is destroyed
+	 * @param y the y index of the lokum that is destroyed
 	 * 
 	 */
 	private void explode(int x, int y){
@@ -359,16 +381,22 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param points
-	 * @param multiplier 
+	 * @param points points to be awarded
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	private void awardPoints(int points, int multiplier){
 		GameWindow.scoreBoard.increaseScore(points*multiplier);
 	}
 
 	/**
-	 * @param row
-	 * @param multiplier 
+	 * @param row row index in which all lokums are to be destroyed
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	public void destroyRow(int row,int multiplier){
 		for(int i=0; i<width; i++){
@@ -380,8 +408,11 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param column
-	 * @param multiplier 
+	 * @param column column index in which all lokums are to be destroyed
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	public void destroyColumn(int column,int multiplier){
 		for(int j=0; j<height; j++){
@@ -393,9 +424,12 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param x
-	 * @param y
-	 * @param multiplier 
+	 * @param x the x index of the WrappedLokum that is destroyed
+	 * @param y the y index of the WrappedLokum that is destroyed
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	public void destroy3x3(int x, int y, int multiplier){
 		for(int i=Math.max(0, x-1); i<Math.min(width, x+2); i++){
@@ -407,9 +441,12 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param x
-	 * @param y
-	 * @param multiplier 
+	 * @param x the x index of the WrappedLokum that is destroyed
+	 * @param y the y index of the WrappedLokum that is destroyed
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	public void destroy5x5(int x, int y, int multiplier){
 		for(int i=Math.max(0, x-2); i<Math.min(width, x+3); i++){
@@ -420,8 +457,8 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param exceptType
-	 * @return
+	 * @param exceptType the type to be excluded from the randomization
+	 * @return a random lokum type (cannot be exceptType)
 	 */
 	public int randomTypeExcept(int exceptType){
 		ArrayList<Integer> types = new ArrayList<Integer>();
@@ -435,8 +472,11 @@ public class LokumMatrix {
 	}
 	
 	/**
-	 * @param type
-	 * @param multiplier 
+	 * @param type the type of the lokums to be destroyed
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	public void destroyAllOfType(int type,int multiplier){
 		for(int i=0; i<width; i++){
@@ -452,8 +492,11 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param type
-	 * @param multiplier 
+	 * @param type the type of the lokums to be destroyed
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	public void convertAndDestroyAllOfType(int type, int multiplier){
 		for(int i=0; i<width; i++){
@@ -468,7 +511,10 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param multiplier 
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 * 
 	 */
 	public void destroyBoard(int multiplier){
@@ -530,7 +576,10 @@ public class LokumMatrix {
 	 * swap. Always call the method with argument 1; it is used
 	 * to supply recursive calls.
 	 * 
-	 * @param multiplier 
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	private void scanForPatterns(int multiplier){
 		boolean patternFound = false;
@@ -600,7 +649,10 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param multiplier
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 * @param step 
 	 */
 	public void runActionTimer(final int multiplier,final int step){
@@ -608,6 +660,7 @@ public class LokumMatrix {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(step==1){
+					GameWindow.gameBoard.setMouseActive(false);
 					dropLokums();
 					((Timer)e.getSource()).stop();
 					runActionTimer(multiplier,step+1);
@@ -617,18 +670,22 @@ public class LokumMatrix {
 					runActionTimer(multiplier,step+1);
 				}else{
 					scanForPatterns(multiplier);
+					GameWindow.gameBoard.setMouseActive(true);
 					((Timer)e.getSource()).stop();
 				}
 			}
 		});
-		timer.setInitialDelay(400);
+		timer.setInitialDelay(300);
 		timer.start();
 	}
 
 	/**
-	 * @param x 
-	 * @param y 
-	 * @param multiplier
+	 * @param x the x index of the WrappedLokum that is destroyed
+	 * @param y the y index of the WrappedLokum that is destroyed 
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 * @param step 
 	 */
 	public void runActionTimerWrapped(final int x, final int y, final int multiplier,final int step){
@@ -636,6 +693,7 @@ public class LokumMatrix {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(step==1){
+					GameWindow.gameBoard.setMouseActive(false);
 					dropLokums();
 					((Timer)e.getSource()).stop();
 					runActionTimerWrapped(x,y,multiplier,step+1);
@@ -653,18 +711,22 @@ public class LokumMatrix {
 					runActionTimerWrapped(x,y,multiplier,step+1);
 				}else{
 					fillInTheBlanks();
+					GameWindow.gameBoard.setMouseActive(true);
 					((Timer)e.getSource()).stop();
 				}
 			}
 		});
-		timer.setInitialDelay(400);
+		timer.setInitialDelay(300);
 		timer.start();
 	}
 
 	/**
 	 * @param x
 	 * @param y
-	 * @param multiplier 
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
 	 */
 	public void delayedDestroy(final int x, final int y, final int multiplier){
 		Timer timer = new Timer(100000,new ActionListener(){
@@ -689,16 +751,18 @@ public class LokumMatrix {
 		return (getLokum(x1,y1) instanceof NormalLokum && getLokum(x2,y2) instanceof ColorBombLokum)
 				|| (getLokum(x2,y2) instanceof NormalLokum && getLokum(x1,y1) instanceof ColorBombLokum);
 	}
-
+	
 	/**
-	 * @param x
-	 * @param y
+	 * Swaps the lokum at the given index coordinates with
+	 * the adjacent one in the given direction.
+	 * 
+	 * @param x the x index of the lokum in the lokumMatrix
+	 * @param y the y index of the lokum in the lokumMatrix
 	 * @param direction
 	 */
 	public void swapDirection(int x, int y, int direction){
 		int xOffset = -5;
 		int yOffset = -5;
-		
 		if(direction==Constants.NORTH || direction == Constants.SOUTH)xOffset=0;
 		else if(direction>Constants.NORTH && direction < Constants.SOUTH)xOffset=1;
 		else if(direction>Constants.SOUTH && direction <= Constants.NORTHWEST)xOffset=-1;
@@ -707,10 +771,13 @@ public class LokumMatrix {
 		else if(direction>Constants.EAST && direction < Constants.WEST)yOffset=1;
 		else if(direction>=Constants.NORTH && direction<=Constants.NORTHWEST)yOffset=-1;
 
+		int x2 = Math.max(Math.min(x+xOffset, width-1), 0);
+		int y2 = Math.max(Math.min(y+yOffset, height-1), 0);
+		
 		if((getLokum(x,y) instanceof SpecialLokum
-				&& getLokum(x+xOffset,y+yOffset) instanceof SpecialLokum)
-				|| isNormalColorBombPair(x,y,x+xOffset,y+yOffset))swapSpecialLokums(x,y,x+xOffset,y+yOffset);
-		else swapLokums(x,y,x+xOffset,y+yOffset);
+				&& getLokum(x2,y2) instanceof SpecialLokum)
+				|| isNormalColorBombPair(x,y,x2,y2))swapSpecialLokums(x,y,x2,y2);
+		else swapLokums(x,y,x2,y2);
 	}
 
 	/**
@@ -758,8 +825,8 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
+	 * @param x the x index of the board object in the lokumMatrix
+	 * @param y the y index of the board object in the lokumMatrix
 	 * @return the Lokum object at (x,y)
 	 * @requires a lokumMatrix is created, (x,y) is in bounds
 	 * @modifies n/a
@@ -804,6 +871,5 @@ public class LokumMatrix {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-
 
 }

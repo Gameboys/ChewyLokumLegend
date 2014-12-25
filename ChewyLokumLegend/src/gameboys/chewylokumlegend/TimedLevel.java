@@ -15,9 +15,10 @@ public class TimedLevel extends Level {
 	 * @param levelNum
 	 * @param targetScore 
 	 * @param timeLimit
+	 * @param numSpecialSwaps 
 	 */
-	public TimedLevel(int levelNum, int targetScore, int timeLimit) {
-		super(levelNum,targetScore);
+	public TimedLevel(int levelNum, int targetScore, int timeLimit, int numSpecialSwaps) {
+		super(levelNum,targetScore,numSpecialSwaps);
 		setResourceAmount(timeLimit);
 	}
 

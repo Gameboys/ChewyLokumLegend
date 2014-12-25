@@ -28,6 +28,8 @@ public abstract class Lokum extends BoardObject{
 			g.drawImage(getLokumImage(),x,y,Constants.LOKUM_SIZE, Constants.LOKUM_SIZE,null);
 		}
 	}
+	
+//	public abstract void destroy();
 
 	/**
 	 * @return the lokumImage
