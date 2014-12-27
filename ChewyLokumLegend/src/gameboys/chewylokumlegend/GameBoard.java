@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.sound.sampled.Clip;
 import javax.swing.JButton;
@@ -59,24 +60,85 @@ public class GameBoard extends JPanel {
 		if(mode){
 			addMouseListener(mouseListener);
 			mouseActive = true;
-			refresh.start();
 			Main.kanunMusic.loop(Clip.LOOP_CONTINUOUSLY);
 		}else{
 			removeMouseListener(mouseListener);
 			mouseActive = false;
-			refresh.stop();
 			Main.kanunMusic.stop();
 		}
 	}
 
 	/**
-	 * @param active
+	 * 
 	 */
-	public void setMouseActive(boolean active){
-		if(active&&!mouseActive){
+	public void makeMove(){
+		refresh.start();
+		runActionTimer(1,1);
+		refresh.stop();
+	}
+	
+	private void runActionTimer(final int multiplier, final int step){
+		setMouseActive(false);
+		Timer timer = new Timer(100000,new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(step==1){
+					GameWindow.gameBoard.setMouseActive(false);
+					matrix.dropLokums();
+					((Timer)e.getSource()).stop();
+					runActionTimer(multiplier,step+1);
+				}else if(step==2){
+					matrix.fillInTheBlanks();
+					((Timer)e.getSource()).stop();
+					runActionTimer(multiplier,step+1);
+				}else{
+					boolean patternFound = matrix.scanForPatterns(multiplier);
+					((Timer)e.getSource()).stop();
+					if(patternFound){
+						Main.cukcukSound.setFramePosition(0);
+						Main.cukcukSound.loop(1);
+						runActionTimer(multiplier+1,1);
+					}else{
+						if(multiplier>8){
+							Main.headshotSound.setFramePosition(0);
+							Main.headshotSound.loop(1);
+						}else if(multiplier>6){
+							Main.divineSound.setFramePosition(0);
+							Main.divineSound.loop(1);
+						}else if(multiplier>4){
+							Main.deliciousSound.setFramePosition(0);
+							Main.deliciousSound.loop(1);
+						}else if(multiplier>2){
+							if(new Random().nextBoolean()){
+								Main.tastySound.setFramePosition(0);
+								Main.tastySound.loop(1);
+							}else{
+								Main.sweetSound.setFramePosition(0);
+								Main.sweetSound.loop(1);
+							}
+						}
+						ScoreBoard sb = GameWindow.scoreBoard;
+						if(sb.getCurrentScore()>=sb.getTargetScore()){
+							GameWindow.gameBoard.youWin();
+						}else if(sb.getResourceLeft()<=0)GameWindow.gameBoard.gameOver();
+						GameWindow.gameBoard.setMouseActive(true);
+					}
+				}
+			}
+		});
+		timer.setInitialDelay(300);
+		timer.start();
+	}
+	
+	/**
+	 * @param setActive true if mouse actions should be activated
+	 * after method call, false if they should be deactivated
+	 */
+	public void setMouseActive(boolean setActive){
+		if(setActive&&!mouseActive){
 			addMouseListener(mouseListener);
 			mouseActive = true;
-		}else if(!active&&mouseActive){
+		}else if(!setActive&&mouseActive){
 			removeMouseListener(mouseListener);
 			mouseActive = false;
 		}
@@ -108,10 +170,59 @@ public class GameBoard extends JPanel {
 		repaint();
 	}
 
+
+	/**
+	 * @param x the x index of the lokum that is destroyed
+	 * @param y the y index of the lokum that is destroyed
+	 * 
+	 */
+	public void explodeLokum(int x, int y){
+		final JLabel gif = new JLabel(Main.explodeImage,JLabel.CENTER);
+		gif.setVerticalAlignment(JLabel.CENTER);
+		gif.setBounds(x*Constants.LOKUM_SIZE,y*Constants.LOKUM_SIZE,Constants.LOKUM_SIZE,Constants.LOKUM_SIZE);
+		add(gif);
+		final Timer end = new Timer(10000,new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				remove(gif);
+				((Timer)arg0.getSource()).stop();
+			}
+		});
+		end.setInitialDelay(300);
+		end.start();
+	}
+	
+	/**
+	 * Swaps the lokum at the given index coordinates with
+	 * the adjacent one in the given direction.
+	 * 
+	 * @param x the x index of the lokum in the lokumMatrix
+	 * @param y the y index of the lokum in the lokumMatrix
+	 * @param direction the direction of the swap (i.e. NORTH)
+	 * enumerated as an integer value
+	 */
+	public void swapDirection(int x, int y, int direction){
+		int xOffset = -5;
+		int yOffset = -5;
+		if(direction==Constants.NORTH || direction == Constants.SOUTH)xOffset=0;
+		else if(direction>Constants.NORTH && direction < Constants.SOUTH)xOffset=1;
+		else if(direction>Constants.SOUTH && direction <= Constants.NORTHWEST)xOffset=-1;
+		
+		if(direction==Constants.EAST || direction == Constants.WEST)yOffset=0;
+		else if(direction>Constants.EAST && direction < Constants.WEST)yOffset=1;
+		else if(direction>=Constants.NORTH && direction<=Constants.NORTHWEST)yOffset=-1;
+
+		int x2 = Math.max(Math.min(x+xOffset, matrix.getWidth()-1), 0);
+		int y2 = Math.max(Math.min(y+yOffset, matrix.getHeight()-1), 0);
+		
+		matrix.swapLokums(x,y,x2,y2);
+		makeMove();
+	}
+	
+	@Override
 	public void paint(Graphics g){
 		super.paint(g);
 		if(mode){
-			//			g.drawImage(Main.backgroundImage, 0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, null);
+			//g.drawImage(Main.backgroundImage, 0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, null);
 			matrix.paint(g);
 		}
 	}
@@ -232,7 +343,7 @@ public class GameBoard extends JPanel {
 			else if(dispX<0 && dispY==0)direction = Constants.WEST;
 			else if(dispX<0 && dispY<0)direction = Constants.NORTHWEST;
 			else return;
-			matrix.swapDirection(initialLokumXIndex, initialLokumYIndex, direction);
+			swapDirection(initialLokumXIndex, initialLokumYIndex, direction);
 		}
 
 	}
