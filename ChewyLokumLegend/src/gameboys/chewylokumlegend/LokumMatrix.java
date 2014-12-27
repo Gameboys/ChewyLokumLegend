@@ -133,9 +133,6 @@ public class LokumMatrix {
 				setLokum(x1,y1,getLokum(x2,y2));
 				setLokum(x2,y2,temp);
 			}else{
-				GameWindow.scoreBoard.makeMove();
-				Main.cukcukSound.setFramePosition(0);
-				Main.cukcukSound.loop(1);
 				if(!patternAnalysis1.equals(ILLEGAL))destroyPattern(patterns1,x1,y1,1);
 				if(!patternAnalysis2.equals(ILLEGAL))destroyPattern(patterns2,x2,y2,1);
 			}

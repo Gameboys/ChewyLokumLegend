@@ -195,12 +195,12 @@ public class GameBoard extends JPanel {
 	 * Swaps the lokum at the given index coordinates with
 	 * the adjacent one in the given direction.
 	 * 
-	 * @param x the x index of the lokum in the lokumMatrix
-	 * @param y the y index of the lokum in the lokumMatrix
+	 * @param x1 the x index of the lokum in the lokumMatrix
+	 * @param y1 the y index of the lokum in the lokumMatrix
 	 * @param direction the direction of the swap (i.e. NORTH)
 	 * enumerated as an integer value
 	 */
-	public void swapDirection(int x, int y, int direction){
+	public void swapDirection(int x1, int y1, int direction){
 		int xOffset = -5;
 		int yOffset = -5;
 		if(direction==Constants.NORTH || direction == Constants.SOUTH)xOffset=0;
@@ -211,11 +211,14 @@ public class GameBoard extends JPanel {
 		else if(direction>Constants.EAST && direction < Constants.WEST)yOffset=1;
 		else if(direction>=Constants.NORTH && direction<=Constants.NORTHWEST)yOffset=-1;
 
-		int x2 = Math.max(Math.min(x+xOffset, matrix.getWidth()-1), 0);
-		int y2 = Math.max(Math.min(y+yOffset, matrix.getHeight()-1), 0);
+		int x2 = Math.max(Math.min(x1+xOffset, matrix.getWidth()-1), 0);
+		int y2 = Math.max(Math.min(y1+yOffset, matrix.getHeight()-1), 0);
 		
-		matrix.swapLokums(x,y,x2,y2);
+		matrix.swapLokums(x1,y1,x2,y2);
 		makeMove();
+		GameWindow.scoreBoard.makeMove();
+		Main.cukcukSound.setFramePosition(0);
+		Main.cukcukSound.loop(1);
 	}
 	
 	@Override
