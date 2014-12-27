@@ -60,10 +60,12 @@ public class GameBoard extends JPanel {
 		if(mode){
 			addMouseListener(mouseListener);
 			mouseActive = true;
+			refresh.start();
 			Main.kanunMusic.loop(Clip.LOOP_CONTINUOUSLY);
 		}else{
 			removeMouseListener(mouseListener);
 			mouseActive = false;
+			refresh.stop();
 			Main.kanunMusic.stop();
 		}
 	}
@@ -72,9 +74,7 @@ public class GameBoard extends JPanel {
 	 * 
 	 */
 	public void makeMove(){
-		refresh.start();
 		runActionTimer(1,1);
-		refresh.stop();
 	}
 	
 	private void runActionTimer(final int multiplier, final int step){
@@ -176,7 +176,7 @@ public class GameBoard extends JPanel {
 	 * @param y the y index of the lokum that is destroyed
 	 * 
 	 */
-	public void explodeLokum(int x, int y){
+	public void paintExplodeImage(int x, int y){
 		final JLabel gif = new JLabel(Main.explodeImage,JLabel.CENTER);
 		gif.setVerticalAlignment(JLabel.CENTER);
 		gif.setBounds(x*Constants.LOKUM_SIZE,y*Constants.LOKUM_SIZE,Constants.LOKUM_SIZE,Constants.LOKUM_SIZE);

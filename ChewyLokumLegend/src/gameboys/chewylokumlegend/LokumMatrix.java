@@ -340,7 +340,7 @@ public class LokumMatrix {
 	public void destroyLokum(int x, int y,int multiplier){
 		BoardObject bo = getLokum(x,y);
 		setLokum(x,y,null);
-		GameWindow.gameBoard.explodeLokum(x,y);
+		GameWindow.gameBoard.paintExplodeImage(x,y);
 		if(bo instanceof StripedLokum){
 			if(((StripedLokum)bo).getStripeDirection()){
 				destroyColumn(x,multiplier);
