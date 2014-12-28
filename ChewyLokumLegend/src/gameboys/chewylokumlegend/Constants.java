@@ -20,6 +20,7 @@ public interface Constants {
 	public static final int HEIGHT_TASKBAR = WINDOW_WIDTH/63;
 	public static final double DIVIDER_RATIO = 0.25;
 	public static final int REFRESH_RATE = 30;
+	public static final int TIMER_RATE = 300;
 	
 	public static final int TYPE_ROSE = 1;
 	public static final int TYPE_HAZELNUT = 2;

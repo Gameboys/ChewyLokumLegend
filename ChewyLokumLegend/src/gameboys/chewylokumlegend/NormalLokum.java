@@ -44,11 +44,6 @@ public class NormalLokum extends Lokum{
 			System.err.println("Error: Invalid lokum type entered.");
 		}
 	}
-
-//	@Override
-//	public void destroy() {
-//		/* Do nothing */
-//	}
 	
 	/**
 	 * @return true if current state of NormalLokum is OK

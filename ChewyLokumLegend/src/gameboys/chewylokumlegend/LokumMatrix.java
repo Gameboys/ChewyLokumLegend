@@ -112,14 +112,19 @@ public class LokumMatrix {
 	 * @param y1 the y index of the first lokum in the lokumMatrix
 	 * @param x2 the x index of the second lokum in the lokumMatrix
 	 * @param y2 the y index of the second lokum in the lokumMatrix
+	 * @return true if swapping was legal, false otherwise
 	 * @requires 2 lokums present at index coordinates (x1,y1) and (x2,y2)
 	 * in the lokumMatrix. One of the two lokums is not a special lokum
 	 * @modifies the lokumMatrix.
 	 */
-	public void swapLokums(int x1, int y1, int x2, int y2){
+	public boolean swapLokums(int x1, int y1, int x2, int y2){
+		boolean successful = false;
 		if((getLokum(x1,y1) instanceof SpecialLokum
 				&& getLokum(x2,y2) instanceof SpecialLokum)
-				|| isNormalColorBombPair(x1,y1,x2,y2))swapSpecialLokums(x1,y1,x2,y2);
+				|| isNormalColorBombPair(x1,y1,x2,y2)){
+			swapSpecialLokums(x1,y1,x2,y2);
+			successful = true;
+		}
 		else{
 			BoardObject temp = getLokum(x1,y1);
 			setLokum(x1,y1,getLokum(x2,y2));
@@ -133,10 +138,12 @@ public class LokumMatrix {
 				setLokum(x1,y1,getLokum(x2,y2));
 				setLokum(x2,y2,temp);
 			}else{
+				successful = true;
 				if(!patternAnalysis1.equals(ILLEGAL))destroyPattern(patterns1,x1,y1,1);
 				if(!patternAnalysis2.equals(ILLEGAL))destroyPattern(patterns2,x2,y2,1);
 			}
 		}
+		return successful;
 	}
 
 	/**
@@ -187,32 +194,8 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param x1 the x index of the first lokum in the lokumMatrix
-	 * @param y1 the y index of the first lokum in the lokumMatrix
-	 * @param x2 the x index of the second lokum in the lokumMatrix
-	 * @param y2 the y index of the second lokum in the lokumMatrix
-	 */
-	public void specialSwap(int x1, int y1, int x2, int y2){
-		//TODO
-		BoardObject temp = getLokum(x1,y1);
-		setLokum(x1,y1,getLokum(x2,y2));
-		setLokum(x2,y2,temp);
-		int[][] patterns1 = analyzePatterns(x1,y1);
-		int[][] patterns2 = analyzePatterns(x2,y2);
-		String patternAnalysis1 = typeOfLokumFormed(patterns1);
-		String patternAnalysis2 = typeOfLokumFormed(patterns2);
-		if(patternAnalysis1.equals(ILLEGAL)&&patternAnalysis2.equals(ILLEGAL)){
-		}else{
-			GameWindow.scoreBoard.makeMove();
-			Main.cukcukSound.setFramePosition(0);
-			Main.cukcukSound.loop(1);
-			if(!patternAnalysis1.equals(ILLEGAL))destroyPattern(patterns1,x1,y1,1);
-			if(!patternAnalysis2.equals(ILLEGAL))destroyPattern(patterns2,x2,y2,1);
-		}
-	}
-
-	/**
-	 * @param patterns 
+	 * @param patterns a 2x5 matrix which contains the pattern analysis,
+	 * produced by analyzePatterns(int x, int y)
 	 * @param xFixed x index of the lokum in the middle
 	 * @param yFixed y index of the lokum in the middle
 	 * @param multiplier the current multiplier to be used
@@ -344,7 +327,7 @@ public class LokumMatrix {
 			}else destroyRow(y,multiplier);
 		}else if(bo instanceof WrappedLokum){
 			destroy3x3(x,y,multiplier);
-			runActionTimerWrapped(x,y+1,1,multiplier);
+			runActionTimerWrapped(x,y+1,multiplier);
 		}else if(bo instanceof ColorBombLokum){
 			destroyAllOfType(randomTypeExcept(-1),multiplier);
 		}
@@ -550,7 +533,8 @@ public class LokumMatrix {
 	 * while calculating point rewards. The multiplier starts
 	 * from 1 when a swap occurs and is incremented every time
 	 * a series of patterns are formed because of the same swap.
-	 * @return 
+	 * @return true if any additional patterns were found, 
+	 * false otherwise
 	 */
 	public boolean scanForPatterns(int multiplier){
 		boolean patternFound = false;
@@ -599,29 +583,25 @@ public class LokumMatrix {
 	 * while calculating point rewards. The multiplier starts
 	 * from 1 when a swap occurs and is incremented every time
 	 * a series of patterns are formed because of the same swap.
-	 * @param step 
 	 */
-	public void runActionTimerWrapped(final int x, final int y, final int multiplier,final int step){
-		Timer timer = new Timer(100000,new ActionListener(){
+	public void runActionTimerWrapped(final int x, final int y, final int multiplier){
+		Timer timer = new Timer(Constants.TIMER_RATE,new ActionListener(){
+			int step = 1;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(step==1){
 					GameWindow.gameBoard.setMouseActive(false);
 					dropLokums();
-					((Timer)e.getSource()).stop();
-					runActionTimerWrapped(x,y,multiplier,step+1);
+					step++;
 				}else if(step==2){
 					fillInTheBlanks();
-					((Timer)e.getSource()).stop();
-					runActionTimerWrapped(x,y,multiplier,step+1);
+					step++;
 				}else if(step==3){
 					destroy3x3(x,Math.min(height-1, y),multiplier);
-					((Timer)e.getSource()).stop();
-					runActionTimerWrapped(x,y,multiplier,step+1);
+					step++;
 				}else if(step==4){
 					dropLokums();
-					((Timer)e.getSource()).stop();
-					runActionTimerWrapped(x,y,multiplier,step+1);
+					step++;
 				}else{
 					fillInTheBlanks();
 					GameWindow.gameBoard.setMouseActive(true);
@@ -629,7 +609,7 @@ public class LokumMatrix {
 				}
 			}
 		});
-		timer.setInitialDelay(300);
+		timer.setInitialDelay(Constants.TIMER_RATE);
 		timer.start();
 	}
 
@@ -658,7 +638,8 @@ public class LokumMatrix {
 	 * @param y1 the y index of the first lokum in the lokumMatrix
 	 * @param x2 the x index of the second lokum in the lokumMatrix
 	 * @param y2 the y index of the second lokum in the lokumMatrix
-	 * @return
+	 * @return true if one of the two lokums at (x1,y1) and (x2,y2)
+	 * is a NormalLokum and the other is a ColorBombLokum
 	 */
 	public boolean isNormalColorBombPair(int x1, int y1, int x2, int y2){
 		return (getLokum(x1,y1) instanceof NormalLokum && getLokum(x2,y2) instanceof ColorBombLokum)

@@ -31,7 +31,8 @@ public class GameBoard extends JPanel {
 	private boolean mode;
 
 	/**
-	 * @param level 
+	 * @param level The current Level object that the game state
+	 * will be based on
 	 * 
 	 */
 	public GameBoard(Level level){
@@ -53,7 +54,7 @@ public class GameBoard extends JPanel {
 	}
 
 	/**
-	 * @param mode
+	 * @param mode set to true if the game is running, false otherwise
 	 */
 	public void setMode(boolean mode){
 		this.mode = mode;
@@ -70,34 +71,27 @@ public class GameBoard extends JPanel {
 		}
 	}
 
-	/**
-	 * 
-	 */
-	public void makeMove(){
-		runActionTimer(1,1);
-	}
-	
-	private void runActionTimer(final int multiplier, final int step){
+	private void makeMove(){
 		setMouseActive(false);
-		Timer timer = new Timer(100000,new ActionListener(){
+		Timer timer = new Timer(Constants.TIMER_RATE,new ActionListener(){
+			int multiplier = 1;
+			int step = 1;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(step==1){
 					GameWindow.gameBoard.setMouseActive(false);
 					matrix.dropLokums();
-					((Timer)e.getSource()).stop();
-					runActionTimer(multiplier,step+1);
+					step++;
 				}else if(step==2){
 					matrix.fillInTheBlanks();
-					((Timer)e.getSource()).stop();
-					runActionTimer(multiplier,step+1);
+					step++;
 				}else{
 					boolean patternFound = matrix.scanForPatterns(multiplier);
-					((Timer)e.getSource()).stop();
 					if(patternFound){
 						Main.cukcukSound.setFramePosition(0);
 						Main.cukcukSound.loop(1);
-						runActionTimer(multiplier+1,1);
+						multiplier++;
+						step=1;
 					}else{
 						if(multiplier>8){
 							Main.headshotSound.setFramePosition(0);
@@ -122,14 +116,15 @@ public class GameBoard extends JPanel {
 							GameWindow.gameBoard.youWin();
 						}else if(sb.getResourceLeft()<=0)GameWindow.gameBoard.gameOver();
 						GameWindow.gameBoard.setMouseActive(true);
+						((Timer)e.getSource()).stop();
 					}
 				}
 			}
 		});
-		timer.setInitialDelay(300);
+		timer.setInitialDelay(Constants.TIMER_RATE);
 		timer.start();
 	}
-	
+
 	/**
 	 * @param setActive true if mouse actions should be activated
 	 * after method call, false if they should be deactivated
@@ -190,7 +185,7 @@ public class GameBoard extends JPanel {
 		end.setInitialDelay(300);
 		end.start();
 	}
-	
+
 	/**
 	 * Swaps the lokum at the given index coordinates with
 	 * the adjacent one in the given direction.
@@ -206,21 +201,23 @@ public class GameBoard extends JPanel {
 		if(direction==Constants.NORTH || direction == Constants.SOUTH)xOffset=0;
 		else if(direction>Constants.NORTH && direction < Constants.SOUTH)xOffset=1;
 		else if(direction>Constants.SOUTH && direction <= Constants.NORTHWEST)xOffset=-1;
-		
+
 		if(direction==Constants.EAST || direction == Constants.WEST)yOffset=0;
 		else if(direction>Constants.EAST && direction < Constants.WEST)yOffset=1;
 		else if(direction>=Constants.NORTH && direction<=Constants.NORTHWEST)yOffset=-1;
 
 		int x2 = Math.max(Math.min(x1+xOffset, matrix.getWidth()-1), 0);
 		int y2 = Math.max(Math.min(y1+yOffset, matrix.getHeight()-1), 0);
-		
-		matrix.swapLokums(x1,y1,x2,y2);
-		makeMove();
-		GameWindow.scoreBoard.makeMove();
-		Main.cukcukSound.setFramePosition(0);
-		Main.cukcukSound.loop(1);
+
+		boolean validMove = matrix.swapLokums(x1,y1,x2,y2);
+		if(validMove){
+			makeMove();
+			GameWindow.scoreBoard.makeMove();
+			Main.cukcukSound.setFramePosition(0);
+			Main.cukcukSound.loop(1);
+		}
 	}
-	
+
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
