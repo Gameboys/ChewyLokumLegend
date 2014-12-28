@@ -23,8 +23,8 @@ public class LevelFactory {
 		case 2:
 			return new TimedLevel(levelNum,30000,30,5);
 		default:
-			System.err.println("Invalid level number.");
-			return null;
+			System.err.println("Invalid level number. By default Level1 is initialized");
+			return new NormalLevel(1,20000,10,3);
 		}
 	}
 

@@ -40,7 +40,7 @@ public abstract class Level {
 	 *		   false otherwise
 	 */
 	public boolean repOK(){
-		if(this==null || levelNum==0 || targetScore==0){
+		if(this==null || levelNum<1 || targetScore<1 || numSpecialSwaps<0){
 			return false;
 		} 
 		else return true;
