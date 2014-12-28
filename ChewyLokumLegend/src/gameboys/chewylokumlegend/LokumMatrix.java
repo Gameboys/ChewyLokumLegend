@@ -1,13 +1,9 @@
 package gameboys.chewylokumlegend;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-
-import javax.swing.Timer;
 
 /**
  * @author Gameboys
@@ -169,15 +165,17 @@ public class LokumMatrix {
 			destroy5x5(x2,y2,1);
 			awardPoints(Constants.POINTS_WRAPPED_WRAPPED,1);
 		}else if(lokum1 instanceof StripedLokum && lokum2 instanceof ColorBombLokum){
-			convertAndDestroyAllOfType(lokum1.getType(),1);
+			convertAllOfType(lokum1.getType(),1);
+			GameWindow.gameBoard.delayedDestroyAllOfType(lokum1.getType(),1);
 		}else if(lokum2 instanceof StripedLokum && lokum1 instanceof ColorBombLokum){
-			convertAndDestroyAllOfType(lokum2.getType(),1);
+			convertAllOfType(lokum2.getType(),1);
+			GameWindow.gameBoard.delayedDestroyAllOfType(lokum2.getType(),1);
 		}else if(lokum1 instanceof WrappedLokum && lokum2 instanceof ColorBombLokum){
 			destroyAllOfType(lokum1.getType(),1);
-			destroyAllOfType(randomTypeExcept(-1),lokum1.getType());
+			destroyAllOfType(randomTypeExcept(lokum1.getType()),1);
 		}else if(lokum2 instanceof WrappedLokum && lokum1 instanceof ColorBombLokum){
 			destroyAllOfType(lokum2.getType(),1);
-			destroyAllOfType(randomTypeExcept(-1),lokum2.getType());
+			destroyAllOfType(randomTypeExcept(lokum2.getType()),1);
 		}else if(lokum1 instanceof NormalLokum && lokum2 instanceof ColorBombLokum){
 			setLokum(x2,y2,null);
 			destroyAllOfType(lokum1.getType(),1);
@@ -450,13 +448,12 @@ public class LokumMatrix {
 	 * from 1 when a swap occurs and is incremented every time
 	 * a series of patterns are formed because of the same swap.
 	 */
-	public void convertAndDestroyAllOfType(int type, int multiplier){
+	public void convertAllOfType(int type, int multiplier){
 		for(int i=0; i<width; i++){
 			for(int j=0; j<height; j++){
 				if(getLokum(i,j)!= null && getLokum(i,j).getType()==type){
 					boolean dir = new Random().nextBoolean();
 					setLokum(i,j,new StripedLokum(type,dir));
-					delayedDestroy(i,j,multiplier);
 				}
 			}
 		}
@@ -577,26 +574,6 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @param x the x index of the lokum to be destroyed
-	 * @param y the y index of the lokum to be destroyed
-	 * @param multiplier the current multiplier to be used
-	 * while calculating point rewards. The multiplier starts
-	 * from 1 when a swap occurs and is incremented every time
-	 * a series of patterns are formed because of the same swap.
-	 */
-	public void delayedDestroy(final int x, final int y, final int multiplier){
-		Timer timer = new Timer(100000,new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				destroyLokum(x,y,multiplier);
-				((Timer)e.getSource()).stop();
-			}
-		});
-		timer.setInitialDelay(400);
-		timer.start();
-	}
-
-	/**
 	 * @param x1 the x index of the first lokum in the lokumMatrix
 	 * @param y1 the y index of the first lokum in the lokumMatrix
 	 * @param x2 the x index of the second lokum in the lokumMatrix
@@ -610,12 +587,12 @@ public class LokumMatrix {
 	}
 
 	/**
-	 * @return true if current state of GameBoard is OK
+	 * @return true if current state of LokumMatrix is OK
 	 *		   false otherwise
 	 */
 	public boolean repOK(){
 		// Inspects state, returns true if it is OK
-		if(lokumMatrix == null)
+		if(this==null || width<1 || height <1 || lokumMatrix == null)
 			return false;
 		else if(lokumMatrix.length != height)
 			return false;

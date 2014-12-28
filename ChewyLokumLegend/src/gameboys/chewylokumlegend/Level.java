@@ -1,7 +1,5 @@
 package gameboys.chewylokumlegend;
 
-import java.util.ArrayList;
-
 /**
  * @author Gameboys
  *
@@ -11,7 +9,6 @@ public abstract class Level {
 	private int levelNum;
 	private int targetScore;
 	private int numSpecialSwaps;
-	private ArrayList<int[]> obstacleCoordinates;
 	
 	
 	/**
@@ -38,6 +35,16 @@ public abstract class Level {
 	 */
 	public abstract void setResourceAmount(int resourceAmount);
 	
+	/**
+	 * @return true if current state of Level is OK
+	 *		   false otherwise
+	 */
+	public boolean repOK(){
+		if(this==null || levelNum==0 || targetScore==0){
+			return false;
+		} 
+		else return true;
+	}
 	
 	/**
 	 * @return the levelNum
@@ -62,18 +69,6 @@ public abstract class Level {
 	 */
 	public void setTargetScore(int targetScore) {
 		this.targetScore = targetScore;
-	}
-	/**
-	 * @return the obstacleCoordinates
-	 */
-	public ArrayList<int[]> getObstacleCoordinates() {
-		return obstacleCoordinates;
-	}
-	/**
-	 * @param obstacleCoordinates the obstacleCoordinates to set
-	 */
-	public void setObstacleCoordinates(ArrayList<int[]> obstacleCoordinates) {
-		this.obstacleCoordinates = obstacleCoordinates;
 	}
 
 	/**

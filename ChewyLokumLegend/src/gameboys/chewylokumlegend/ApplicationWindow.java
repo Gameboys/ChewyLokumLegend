@@ -65,8 +65,4 @@ public class ApplicationWindow extends JFrame {
 		return instance;
 	}
 
-	public void close(){
-
-	}
-
 }

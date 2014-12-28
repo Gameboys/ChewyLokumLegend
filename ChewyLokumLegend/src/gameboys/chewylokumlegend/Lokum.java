@@ -28,6 +28,17 @@ public abstract class Lokum extends BoardObject{
 			g.drawImage(getLokumImage(),x,y,Constants.LOKUM_SIZE, Constants.LOKUM_SIZE,null);
 		}
 	}
+	
+	/**
+	 * @return true if current state of Lokum is OK
+	 *		   false otherwise
+	 */
+	public boolean repOK(){
+		if(this==null || lokumImage==null){
+			return false;
+		}
+		else return true;
+	}
 
 	/**
 	 * @return the lokumImage

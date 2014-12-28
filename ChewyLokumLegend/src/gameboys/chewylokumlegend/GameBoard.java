@@ -165,7 +165,25 @@ public class GameBoard extends JPanel {
 		repaint();
 	}
 
-
+	/**
+	 * @param type the type of the lokums to be destroyed
+	 * @param multiplier the current multiplier to be used
+	 * while calculating point rewards. The multiplier starts
+	 * from 1 when a swap occurs and is incremented every time
+	 * a series of patterns are formed because of the same swap.
+	 */
+	public void delayedDestroyAllOfType(final int type, final int multiplier){
+		Timer timer = new Timer(100000,new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				matrix.destroyAllOfType(type,multiplier);
+				((Timer)e.getSource()).stop();
+			}
+		});
+		timer.setInitialDelay(Constants.TIMER_RATE);
+		timer.start();
+	}
+	
 	/**
 	 * @param x the x index of the lokum that is destroyed
 	 * @param y the y index of the lokum that is destroyed

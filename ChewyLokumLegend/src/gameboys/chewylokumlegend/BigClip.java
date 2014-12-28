@@ -40,6 +40,7 @@ N.B. Remove @Override notation and logging to use in 1.3+
 @since 1.5
 @version 2009-08-17
 @author Andrew Thompson */
+@SuppressWarnings({"javadoc","resource","unused"})
 public class BigClip implements Clip, LineListener {
 
     /** The DataLine used by this Clip. */
@@ -87,7 +88,7 @@ public class BigClip implements Clip, LineListener {
     the same AudioFormat as the original Clip.
     @param clip Clip The Clip used to configure the BigClip. 
     @throws LineUnavailableException */
-    public BigClip(Clip clip) throws LineUnavailableException {
+	public BigClip(Clip clip) throws LineUnavailableException {
         dataLine = AudioSystem.getSourceDataLine( clip.getFormat() );
     }
 
@@ -220,7 +221,7 @@ public class BigClip implements Clip, LineListener {
         format = is1.getFormat();
         InputStream is2;
         if (parent!=null) {
-            ProgressMonitorInputStream pmis = new ProgressMonitorInputStream(
+			ProgressMonitorInputStream pmis = new ProgressMonitorInputStream(
                 parent,
                 "Loading track..",
                 is1);
