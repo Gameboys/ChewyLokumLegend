@@ -187,10 +187,6 @@ public class LokumMatrix {
 		}else{
 			destroyBoard(1);
 		}
-		GameWindow.scoreBoard.makeMove();
-		Main.cukcukSound.setFramePosition(0);
-		Main.cukcukSound.loop(1);
-
 	}
 
 	/**
