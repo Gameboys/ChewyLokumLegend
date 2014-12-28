@@ -2,7 +2,7 @@ package unittesting;
 
 import gameboys.chewylokumlegend.Level;
 import gameboys.chewylokumlegend.LevelFactory;
-import gameboys.chewylokumlegend.LokumMatrix;
+
 
 import org.junit.Test;
 
