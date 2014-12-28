@@ -6,8 +6,14 @@ package gameboys.chewylokumlegend;
  */
 public class WrappedLokum extends SpecialLokum{
 
+	private boolean exploded = false;
+	
 	/**
-	 * @param type
+	 * @param type the type of lokum
+	 * 1: ROSE,
+	 * 2: HAZELNUT,
+	 * 3: PISTACHIO,
+	 * 4: COCONUT
 	 */
 	public WrappedLokum(int type) {
 		super();
@@ -40,5 +46,20 @@ public class WrappedLokum extends SpecialLokum{
 			System.err.println("Error: Invalid lokum type entered.");
 		}
 	}
+
+	/**
+	 * @return the exploded
+	 */
+	public boolean isExploded() {
+		return exploded;
+	}
+
+	/**
+	 * @param exploded the exploded to set
+	 */
+	public void setExploded(boolean exploded) {
+		this.exploded = exploded;
+	}
+	
 
 }

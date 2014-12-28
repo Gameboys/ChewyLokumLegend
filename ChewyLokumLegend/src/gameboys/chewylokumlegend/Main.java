@@ -58,7 +58,6 @@ public class Main {
 	 * @param args 
 	 */
 	public static void main(String[] args) {
-//		TestPlan.testAll();
 		launchGame();
 	}
 
@@ -105,7 +104,6 @@ public class Main {
 			coconutWrappedImage = openImage("wrapped"+File.separatorChar+"coconutWrapped.png");
 			
 			colorBombImage = openImage("colorBomb.png");
-//			backgroundImage = openImage("background.jpg");
 			
 			kanunMusic = loadMusic("kanun.wav");
 			aahSound = loadMusic("aah.wav");

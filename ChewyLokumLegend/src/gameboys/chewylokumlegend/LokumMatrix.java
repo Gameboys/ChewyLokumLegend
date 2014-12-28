@@ -327,7 +327,10 @@ public class LokumMatrix {
 			}else destroyRow(y,multiplier);
 		}else if(bo instanceof WrappedLokum){
 			destroy3x3(x,y,multiplier);
-			runActionTimerWrapped(x,y+1,multiplier);
+			if(!((WrappedLokum)bo).isExploded()){
+				((WrappedLokum)bo).setExploded(true);
+				setLokum(x,y,bo);
+			}
 		}else if(bo instanceof ColorBombLokum){
 			destroyAllOfType(randomTypeExcept(-1),multiplier);
 		}
@@ -541,7 +544,8 @@ public class LokumMatrix {
 		for(int j=0; j<height; j++){
 			for(int i=0; i<width; i++){
 				BoardObject bo = getLokum(i,j);
-				if(bo!=null){
+				if(bo instanceof WrappedLokum && ((WrappedLokum)bo).isExploded())destroy3x3(i,j,multiplier);
+				else if(bo!=null){
 					int x = i, y = j;
 					if(i+2<width && getLokum(i+1,j)!=null && bo.getType()==(getLokum(i+1,j).getType())){
 						x++;
@@ -574,43 +578,6 @@ public class LokumMatrix {
 			}
 		}
 		return patternFound;
-	}
-
-	/**
-	 * @param x the x index of the WrappedLokum that is destroyed
-	 * @param y the y index of the WrappedLokum that is destroyed 
-	 * @param multiplier the current multiplier to be used
-	 * while calculating point rewards. The multiplier starts
-	 * from 1 when a swap occurs and is incremented every time
-	 * a series of patterns are formed because of the same swap.
-	 */
-	public void runActionTimerWrapped(final int x, final int y, final int multiplier){
-		Timer timer = new Timer(Constants.TIMER_RATE,new ActionListener(){
-			int step = 1;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(step==1){
-					GameWindow.gameBoard.setMouseActive(false);
-					dropLokums();
-					step++;
-				}else if(step==2){
-					fillInTheBlanks();
-					step++;
-				}else if(step==3){
-					destroy3x3(x,Math.min(height-1, y),multiplier);
-					step++;
-				}else if(step==4){
-					dropLokums();
-					step++;
-				}else{
-					fillInTheBlanks();
-					GameWindow.gameBoard.setMouseActive(true);
-					((Timer)e.getSource()).stop();
-				}
-			}
-		});
-		timer.setInitialDelay(Constants.TIMER_RATE);
-		timer.start();
 	}
 
 	/**

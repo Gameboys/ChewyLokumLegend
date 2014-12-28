@@ -174,6 +174,7 @@ public class GameBoard extends JPanel {
 	public void paintExplodeImage(int x, int y){
 		final JLabel gif = new JLabel(Main.explodeImage,JLabel.CENTER);
 		gif.setVerticalAlignment(JLabel.CENTER);
+		gif.setLocation(x*Constants.LOKUM_SIZE, y*Constants.LOKUM_SIZE);
 		gif.setBounds(x*Constants.LOKUM_SIZE,y*Constants.LOKUM_SIZE,Constants.LOKUM_SIZE,Constants.LOKUM_SIZE);
 		add(gif);
 		final Timer end = new Timer(10000,new ActionListener(){
@@ -221,10 +222,7 @@ public class GameBoard extends JPanel {
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
-		if(mode){
-			//g.drawImage(Main.backgroundImage, 0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, null);
-			matrix.paint(g);
-		}
+		if(mode)matrix.paint(g);
 	}
 
 	/**
