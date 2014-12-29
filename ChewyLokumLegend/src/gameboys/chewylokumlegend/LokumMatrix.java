@@ -327,6 +327,8 @@ public class LokumMatrix {
 			}
 		}else if(bo instanceof ColorBombLokum){
 			destroyAllOfType(randomTypeExcept(-1),multiplier);
+		}else if(bo instanceof TimeLokum){
+			GameWindow.scoreBoard.addTime(((TimeLokum)bo).getBonusTime());
 		}
 	}
 
@@ -484,7 +486,7 @@ public class LokumMatrix {
 	 * @modifies the lokumMatrix
 	 * @ensures any hole in the lokumMatrix is at the top
 	 */
-	public void dropLokums(){
+ 	public void dropLokums(){
 		int yNext = 0;
 		for(int i=height-1; i>=0; i--){
 			for(int j=0; j<width; j++){
