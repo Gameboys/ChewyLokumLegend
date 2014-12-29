@@ -24,21 +24,26 @@ public class Main {
 	protected static Image roseStripedVerticalImage;
 	protected static Image roseStripedHorizontalImage;
 	protected static Image roseWrappedImage;
+	protected static Image roseTimeImage;
 	
 	protected static Image hazelnutImage;
 	protected static Image hazelnutStripedVerticalImage;
 	protected static Image hazelnutStripedHorizontalImage;
 	protected static Image hazelnutWrappedImage;
+	protected static Image hazelnutTimeImage;
 	
 	protected static Image pistachioImage;
 	protected static Image pistachioStripedVerticalImage;
 	protected static Image pistachioStripedHorizontalImage;
 	protected static Image pistachioWrappedImage;
+	protected static Image pistachioTimeImage;
 	
 	protected static Image coconutImage;
 	protected static Image coconutStripedVerticalImage;
 	protected static Image coconutStripedHorizontalImage;
 	protected static Image coconutWrappedImage;
+	protected static Image coconutTimeImage;
+	
 	
 	protected static Image backgroundImage;
 	protected static Image colorBombImage;
@@ -102,6 +107,11 @@ public class Main {
 			hazelnutWrappedImage = openImage("wrapped"+File.separatorChar+"hazelnutWrapped.png");
 			pistachioWrappedImage = openImage("wrapped"+File.separatorChar+"pistachioWrapped.png");
 			coconutWrappedImage = openImage("wrapped"+File.separatorChar+"coconutWrapped.png");
+			
+			roseTimeImage = openImage("time"+File.separatorChar+"roseTime.png");
+			hazelnutTimeImage = openImage("time"+File.separatorChar+"hazelnutTime.png");
+			pistachioTimeImage = openImage("time"+File.separatorChar+"pistachioTime.png");
+			coconutTimeImage = openImage("time"+File.separatorChar+"coconutTime.png");
 			
 			colorBombImage = openImage("colorBomb.png");
 			

@@ -24,6 +24,33 @@ public class TimeLokum extends Lokum {
 	}
 
 	/**
+	 * @param type the type of lokum to set
+	 * 1: ROSE,
+	 * 2: HAZELNUT,
+	 * 3: PISTACHIO,
+	 * 4: COCONUT
+	 */
+	public void setType(int type) {
+		super.setType(type);
+		switch(type){
+		case 1:
+			setLokumImage(Main.roseTimeImage);
+			break;
+		case 2:
+			setLokumImage(Main.hazelnutTimeImage);
+			break;
+		case 3:
+			setLokumImage(Main.pistachioTimeImage);
+			break;
+		case 4:
+			setLokumImage(Main.coconutTimeImage);
+			break;
+		default:
+			System.err.println("Error: Invalid lokum type entered.");
+		}
+	}
+	
+	/**
 	 * @return the bonusTime
 	 */
 	public int getBonusTime() {
