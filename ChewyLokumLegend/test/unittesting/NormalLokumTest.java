@@ -1,13 +1,12 @@
 package unittesting;
 
-
-import gameboys.chewylokumlegend.Lokum;
 import gameboys.chewylokumlegend.NormalLokum;
 
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class NormalLokumTest {
+	
 	//Following test is for Lokum (abstract) classes repOK condition
 	@Test(expected = NullPointerException.class)
 	public void testNullLokum(){
@@ -21,6 +20,7 @@ public class NormalLokumTest {
 		NormalLokum normalLokum = new NormalLokum(9);
 		Assertions.assertFalse("normalLokum repOK is false", normalLokum.repOK());
 	}
+	
 	@Test
 	public void testUnderTypeNumber(){
 		NormalLokum normalLokum = new NormalLokum(-1);

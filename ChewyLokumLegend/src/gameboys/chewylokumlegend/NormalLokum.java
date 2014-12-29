@@ -50,8 +50,7 @@ public class NormalLokum extends Lokum{
 	 *		   false otherwise
 	 */
 	public boolean repOK(){
-		if(super.repOK() && getType()>=1 && getType()<=4)
-			return true;
+		if(super.repOK() && getType()>0 && getType()<5) return true;
 		else return false;
 	}
 	
