@@ -4,9 +4,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
@@ -34,7 +34,7 @@ public class ScoreBoard extends JPanel{
 	private JLabel currentScoreLabel;
 	private JLabel currentNumSpecialSwapsLabel;
 
-	private JButton specialSwapButton;
+	protected JToggleButton specialSwapButton;
 
 	private Timer timer;
 
@@ -126,14 +126,14 @@ public class ScoreBoard extends JPanel{
 		currentNumSpecialSwapsLabel.setBounds(WIDTH/10,HEIGHT*9/10-HEIGHT/16,WIDTH-WIDTH/5,HEIGHT/8);
 		add(currentNumSpecialSwapsLabel);
 
-		specialSwapButton = new JButton("Special Swap!");
+		specialSwapButton = new JToggleButton("Special Swap!");
 		specialSwapButton.setBounds(WIDTH/10,HEIGHT*17/20-HEIGHT/32,WIDTH-WIDTH/5,HEIGHT/16);
 		specialSwapButton.setFont(font);
 		specialSwapButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
+				if(numSpecialSwaps>0)GameWindow.gameBoard.setSpecialSwapMode(true);
+				else specialSwapButton.setSelected(false);
 			}
 		});
 		add(specialSwapButton);
@@ -147,6 +147,7 @@ public class ScoreBoard extends JPanel{
 		resourceLeftLabel.setText(""+resourceLeft);
 		targetScoreLabel.setText(""+targetScore);
 		currentScoreLabel.setText(""+currentScore);
+		currentNumSpecialSwapsLabel.setText(""+numSpecialSwaps);
 	}
 
 	/**
@@ -199,10 +200,12 @@ public class ScoreBoard extends JPanel{
 	 * Decrement movesLeft
 	 */
 	public void makeMove(){
-		if(resourceName.equals("Moves")){
-			resourceLeft--;
-			update();
+		if(resourceName.equals("Moves")) resourceLeft--;
+		if(specialSwapButton.isSelected()){
+			numSpecialSwaps--;
+			specialSwapButton.setSelected(false);
 		}
+		update();
 	}
 	/**
 	 * @return the targetScore

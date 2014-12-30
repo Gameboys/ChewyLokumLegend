@@ -29,6 +29,7 @@ public class GameBoard extends JPanel {
 	private Timer refresh;
 	private boolean mouseActive;
 	private boolean mode;
+	private boolean specialSwapMode;
 
 	/**
 	 * @param level The current Level object that the game state
@@ -237,10 +238,41 @@ public class GameBoard extends JPanel {
 		}
 	}
 
+	/**
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
+	public void specialSwap(int x1, int y1, int x2, int y2){
+		boolean validMove = matrix.swapLokums(x1,y1,x2,y2);
+		if(validMove){
+			makeMove();
+			setSpecialSwapMode(false);
+			GameWindow.scoreBoard.makeMove();
+			Main.cukcukSound.setFramePosition(0);
+			Main.cukcukSound.loop(1);
+		}
+	}
+	
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
 		if(mode)matrix.paint(g);
+	}
+
+	/**
+	 * @return the specialSwapMode
+	 */
+	public boolean isSpecialSwapMode() {
+		return specialSwapMode;
+	}
+
+	/**
+	 * @param specialSwapMode the specialSwapMode to set
+	 */
+	public void setSpecialSwapMode(boolean specialSwapMode) {
+		this.specialSwapMode = specialSwapMode;
 	}
 
 	/**
@@ -359,7 +391,8 @@ public class GameBoard extends JPanel {
 			else if(dispX<0 && dispY==0)direction = Constants.WEST;
 			else if(dispX<0 && dispY<0)direction = Constants.NORTHWEST;
 			else return;
-			swapDirection(initialLokumXIndex, initialLokumYIndex, direction);
+			if(specialSwapMode)specialSwap(initialLokumXIndex, initialLokumYIndex, finalLokumXIndex, finalLokumYIndex);
+			else swapDirection(initialLokumXIndex, initialLokumYIndex, direction);
 		}
 
 	}
