@@ -17,10 +17,13 @@ public class TimeLokum extends Lokum {
 	 * 2 -> HAZELNUT,
 	 * 3 -> PISTACHIO,
 	 * 4 -> COCONUT
+	 * @param bonusTime the extra time in seconds that destroying
+	 * this lokum awards.
 	 */
-	public TimeLokum(int type){
+	public TimeLokum(int type, int bonusTime){
 		super();
 		setType(type);
+		setBonusTime(bonusTime);
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class ScoreBoard extends JPanel{
 	private int targetScore;
 	private int numSpecialSwaps;
 
-	private String resourceName;
+	protected String resourceName;
 
 	private JLabel levelNumLabel;
 	private JLabel resourceLeftLabel;

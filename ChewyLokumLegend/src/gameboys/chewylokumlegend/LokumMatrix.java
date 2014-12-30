@@ -512,11 +512,14 @@ public class LokumMatrix {
 	 */
 	public void fillInTheBlanks(){
 		int type = 0;
+		boolean time = false;
 		for(int i=0; i<height; i++){
 			for(int j=0; j<width; j++){
 				if(lokumMatrix[i][j] == null){
 					type = (new Random().nextInt(4)+1);
-					lokumMatrix[i][j] = new NormalLokum(type);
+					time = (new Random().nextDouble()<0.04) && GameWindow.scoreBoard.resourceName.equals("Time");
+					if(time)lokumMatrix[i][j] = new TimeLokum(type,Constants.EXTRA_TIME);
+					else lokumMatrix[i][j] = new NormalLokum(type);
 				}
 			}
 		}
