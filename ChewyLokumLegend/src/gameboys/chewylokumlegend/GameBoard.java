@@ -239,10 +239,10 @@ public class GameBoard extends JPanel {
 	}
 
 	/**
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
+	 * @param x1 the x index of the first lokum in the lokumMatrix
+	 * @param y1 the y index of the first lokum in the lokumMatrix
+	 * @param x2 the x index of the second lokum in the lokumMatrix
+	 * @param y2 the y index of the second lokum in the lokumMatrix
 	 */
 	public void specialSwap(int x1, int y1, int x2, int y2){
 		boolean validMove = matrix.swapLokums(x1,y1,x2,y2);
