@@ -58,7 +58,7 @@ public class MainMenu extends JPanel {
 	 * 
 	 */
 	protected void addButtons() {
-		JButton newGame = new JButton("Level Select");
+		JButton newGame = new JButton("Start new game");
 		newGame.setBounds(WIDTH/4-WIDTH/8,HEIGHT/4,WIDTH/4,HEIGHT/10);
 		newGame.setFont(new Font("Comic Sans MS", Font.BOLD, WIDTH/42));
 		newGame.setBorderPainted(false);
@@ -86,7 +86,7 @@ public class MainMenu extends JPanel {
 				contentPane.repaint();
 			}
 		});
-//		add(loadGame);
+		add(loadGame);
 	}
 	
 	public void paint(Graphics g){
