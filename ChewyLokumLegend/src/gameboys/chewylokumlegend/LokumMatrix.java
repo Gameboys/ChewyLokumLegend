@@ -120,8 +120,7 @@ public class LokumMatrix {
 				|| isNormalColorBombPair(x1,y1,x2,y2)){
 			swapSpecialLokums(x1,y1,x2,y2);
 			successful = true;
-		}
-		else{
+		}else{
 			BoardObject temp = getLokum(x1,y1);
 			setLokum(x1,y1,getLokum(x2,y2));
 			setLokum(x2,y2,temp);
@@ -243,7 +242,10 @@ public class LokumMatrix {
 	 * @modifies n/a
 	 */
 	public int[][] analyzePatterns(int x, int y){
-		int type = getLokum(x,y).getType();
+		BoardObject lokum = getLokum(x,y);
+		int type;
+		if(lokum!=null)type = lokum.getType();
+		else type = 100;
 		int[][] patterns = new int[][]{{-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1}};
 		int count = 0;
 		int xMin = Math.max(0, x-2);
