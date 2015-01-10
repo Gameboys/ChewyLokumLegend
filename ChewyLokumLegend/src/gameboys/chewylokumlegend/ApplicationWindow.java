@@ -24,7 +24,7 @@ public class ApplicationWindow extends JFrame {
 	 */
 	private ApplicationWindow(){
 		super("Gameboys Present: Chewy Lokum Legend");
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE/*DO_NOTHING_ON_CLOSE*/);
 
 		int screenWidth = (int)Constants.SCREEN_SIZE.getWidth();
 		int screenHeight = (int)Constants.SCREEN_SIZE.getHeight();
@@ -38,23 +38,23 @@ public class ApplicationWindow extends JFrame {
 		contentPane.setLayout(new BorderLayout());
 		contentPane.add(MainMenu.getInstance(),BorderLayout.CENTER);
 		setContentPane(contentPane);
-		this.addWindowListener(new WindowAdapter(){
-			@Override
-			public void windowClosing(WindowEvent we) {
-				if(GameWindow.gameBoard!=null){
-					String ObjButtons[] = {"Yes","No"};
-					int PromptResult = JOptionPane.showOptionDialog(null, 
-							"Do you wish to save your progress?", "Save Game State?", 
-							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
-							ObjButtons,ObjButtons[0]);
-					if(PromptResult==0){
-						SavedState save = new SavedState();
-						System.exit(0);
-					}else System.exit(0);
-
-				}else System.exit(0);
-			}
-		});
+//		this.addWindowListener(new WindowAdapter(){
+//			@Override
+//			public void windowClosing(WindowEvent we) {
+//				if(GameWindow.gameBoard!=null){
+//					String ObjButtons[] = {"Yes","No"};
+//					int PromptResult = JOptionPane.showOptionDialog(null, 
+//							"Do you wish to save your progress?", "Save Game State?", 
+//							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
+//							ObjButtons,ObjButtons[0]);
+//					if(PromptResult==0){
+//						SavedState save = new SavedState();
+//						System.exit(0);
+//					}else System.exit(0);
+//
+//				}else System.exit(0);
+//			}
+//		});
 	}
 
 	/**

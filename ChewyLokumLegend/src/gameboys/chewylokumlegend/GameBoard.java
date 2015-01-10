@@ -26,6 +26,7 @@ public class GameBoard extends JPanel {
 
 	private GameMouseListener mouseListener;
 	private LokumMatrix matrix;
+	private int levelNum;
 	private Timer refresh;
 	private boolean mouseActive;
 	private boolean mode;
@@ -42,6 +43,8 @@ public class GameBoard extends JPanel {
 		setOpaque(true);
 		setBackground(new Color(255,230,230));
 		setVisible(true);
+		
+		levelNum = level.getLevelNum();
 
 		refresh = new Timer(Constants.REFRESH_RATE,new ActionListener(){
 			@Override
@@ -144,6 +147,7 @@ public class GameBoard extends JPanel {
 	 * 
 	 */
 	public void youWin(){
+		setMouseActive(false);
 		setMode(false);
 		Main.winSound.setFramePosition(0);
 		Main.winSound.loop(1);
@@ -157,6 +161,7 @@ public class GameBoard extends JPanel {
 	 * 
 	 */
 	public void gameOver(){
+		setMouseActive(false);
 		setMode(false);
 		Main.aahSound.setFramePosition(0);
 		Main.aahSound.loop(1);
@@ -302,6 +307,25 @@ public class GameBoard extends JPanel {
 			levelCompleted.setHorizontalAlignment(SwingConstants.CENTER);
 			levelCompleted.setFont(new Font("Comic Sans MS", Font.BOLD, WIDTH/21));
 			add(levelCompleted);
+			
+
+			if(levelNum<LevelFactory.numLevels){
+				JButton nextLevel = new JButton("Next Level");
+				nextLevel.setBounds(WIDTH/4,HEIGHT/2,WIDTH/2,HEIGHT/10);
+				nextLevel.setHorizontalAlignment(SwingConstants.CENTER);
+				nextLevel.setFont(new Font("Comic Sans MS", Font.BOLD, WIDTH/21));
+				nextLevel.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						JPanel contentPane = (JPanel) ApplicationWindow.getInstance().getContentPane();
+						contentPane.removeAll();
+						contentPane.add(new GameWindow(LevelFactory.getLevel(levelNum+1)));
+//						GameWindow.setMode(true);
+						contentPane.validate();
+						contentPane.repaint();
+					}
+				});
+				add(nextLevel);
+			}
 		}
 
 
@@ -337,7 +361,7 @@ public class GameBoard extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					JPanel contentPane = (JPanel) ApplicationWindow.getInstance().getContentPane();
 					contentPane.removeAll();
-					contentPane.add(new GameWindow(LevelFactory.getLevel(1)));
+					contentPane.add(new GameWindow(LevelFactory.getLevel(levelNum)));
 					contentPane.validate();
 					contentPane.repaint();
 				}
