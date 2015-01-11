@@ -176,10 +176,10 @@ public class LokumMatrix {
 		}else if(lokum2 instanceof WrappedLokum && lokum1 instanceof ColorBombLokum){
 			destroyAllOfType(lokum2.getType(),1);
 			destroyAllOfType(randomTypeExcept(lokum2.getType()),1);
-		}else if(lokum1 instanceof NormalLokum && lokum2 instanceof ColorBombLokum){
+		}else if((lokum1 instanceof NormalLokum ||lokum1 instanceof TimeLokum) && lokum2 instanceof ColorBombLokum){
 			setLokum(x2,y2,null);
 			destroyAllOfType(lokum1.getType(),1);
-		}else if(lokum2 instanceof NormalLokum && lokum1 instanceof ColorBombLokum){
+		}else if((lokum2 instanceof NormalLokum ||lokum2 instanceof TimeLokum) && lokum1 instanceof ColorBombLokum){
 			setLokum(x1,y1,null);
 			destroyAllOfType(lokum2.getType(),1);
 		}else{
@@ -587,8 +587,10 @@ public class LokumMatrix {
 	 * is a NormalLokum and the other is a ColorBombLokum
 	 */
 	public boolean isNormalColorBombPair(int x1, int y1, int x2, int y2){
-		return (getLokum(x1,y1) instanceof NormalLokum && getLokum(x2,y2) instanceof ColorBombLokum)
-				|| (getLokum(x2,y2) instanceof NormalLokum && getLokum(x1,y1) instanceof ColorBombLokum);
+		BoardObject lokum1 = getLokum(x1,y1);
+		BoardObject lokum2 = getLokum(x2,y2);
+		return ((lokum1 instanceof NormalLokum || lokum1 instanceof TimeLokum) && lokum2 instanceof ColorBombLokum)
+				|| ((lokum2 instanceof NormalLokum || lokum2 instanceof TimeLokum) && lokum1 instanceof ColorBombLokum);
 	}
 
 	/**

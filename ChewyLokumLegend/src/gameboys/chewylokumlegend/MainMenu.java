@@ -67,9 +67,8 @@ public class MainMenu extends JPanel {
 				JPanel contentPane = (JPanel) ApplicationWindow.getInstance().getContentPane();
 				contentPane.removeAll();
 				try {
-					Thread.sleep(500);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				contentPane.add(LevelSelectionWindow.getInstance());
