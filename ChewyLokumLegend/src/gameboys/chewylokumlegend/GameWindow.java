@@ -44,7 +44,7 @@ public class GameWindow extends JSplitPane {
 	/**
 	 * @param mode set to true if the game is running, false otherwise
 	 */
-	public void setMode(boolean mode){
+	public static void setMode(boolean mode){
 		gameBoard.setMode(mode);
 		scoreBoard.setMode(mode);
 	}

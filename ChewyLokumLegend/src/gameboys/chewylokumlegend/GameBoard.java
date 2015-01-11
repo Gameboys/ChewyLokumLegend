@@ -148,7 +148,7 @@ public class GameBoard extends JPanel {
 	 */
 	public void youWin(){
 		setMouseActive(false);
-		setMode(false);
+		GameWindow.setMode(false);
 		Main.winSound.setFramePosition(0);
 		Main.winSound.loop(1);
 		removeAll();
@@ -162,7 +162,7 @@ public class GameBoard extends JPanel {
 	 */
 	public void gameOver(){
 		setMouseActive(false);
-		setMode(false);
+		GameWindow.setMode(false);
 		Main.aahSound.setFramePosition(0);
 		Main.aahSound.loop(1);
 		removeAll();
