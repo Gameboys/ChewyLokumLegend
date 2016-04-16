@@ -1,7 +1,5 @@
 package gameboys.chewylokumlegend;
 
-import java.awt.Graphics;
-
 /**
  * @author Gameboys
  *
